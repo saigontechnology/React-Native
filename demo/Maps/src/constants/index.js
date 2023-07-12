@@ -1,0 +1,14 @@
+export const TOKEN_KEY = 'TOKEN'
+export const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN_KEY'
+export const RESPONSE_SUCCESS = [200, 201]
+export const UNAUTHORIZED = [401, 403]
+export const AXIOS_TIMEOUT = 60000
+export const USER_INFO_KEY = 'USER_INFO_KEY'
+export const HEADER_AUTHENTICATION = 'Authorization'
+export const ORG_TOKEN = 'org-token'
+export const GRANT_TYPE = 'password'
+export const SCOPE = 'openid'
+export const USER_NAME = 'dung+octopus4@101digital.io'
+export const PASSWORD = 'Abc@123456'
+export const STATUS_SUCCESS = 201
+export const ARRAY_BUTTON = ['Ongoing', 'Available', 'History']
