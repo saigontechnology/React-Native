@@ -6,6 +6,7 @@ export default {
   HomeScreen: 'HomeScreen',
   ForgotPasswordScreen: 'ForgotPasswordScreen',
   ResetPasswordScreen: 'ResetPasswordScreen',
+  ChangePasswordScreen: 'ChangePasswordScreen',
 
   /** Stack */
   AuthStack: 'AuthStack',

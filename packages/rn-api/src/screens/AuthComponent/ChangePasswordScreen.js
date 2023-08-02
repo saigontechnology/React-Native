@@ -8,7 +8,7 @@ import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
 
-export const ResetPasswordScreen = () => {
+export const ChangePasswordScreen = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useReducer((prev, next) => ({...prev, ...next}), {
     newPassword: '',
@@ -17,7 +17,7 @@ export const ResetPasswordScreen = () => {
   })
 
   const onPressLogin = useCallback(() => {
-    dispatch(userActions.resetPasswordHandle({id: inputValue.id, password: inputValue.password}))
+    dispatch(userActions.changePasswordHandle({id: inputValue.id, password: inputValue.password}))
   }, [inputValue, dispatch])
 
   const onChangeNewPass = useCallback(text => {
@@ -35,7 +35,7 @@ export const ResetPasswordScreen = () => {
   return (
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView>
-        <Text style={styles.titleText}>Reset Password</Text>
+        <Text style={styles.titleText}>Change Password</Text>
         <PasswordInput onChangeText={onChangeNewPass} value={inputValue.id} title={'New Password'} />
         <View style={styles.passwordSection}>
           <PasswordInput

@@ -2,17 +2,14 @@ import {takeLatest, delay, put} from 'redux-saga/effects'
 import {appActions, userActions} from '../reducers'
 import RouteKey from '../../navigation/RouteKey'
 import {Toast} from '../../components'
-import {changePassword} from '../../services/api/api'
+import {changePassword, forgotPassword, resetPassword} from '../../services/api/api'
 
 function* userLoginSaga(action) {
   try {
     yield put(appActions.setShowGlobalIndicator(true))
-    const body = {}
-    const res = yield changePassword(body)
-    if (res?.isSuccess === true) {
-      yield delay(1000)
-      yield put(appActions.setAppStack(RouteKey.MainStack))
-    }
+    // TODO: login login
+    yield delay(1000)
+    yield put(appActions.setAppStack(RouteKey.MainStack))
   } catch (e) {
     Toast.error(e.message)
     yield put(appActions.setAppStack(RouteKey.AuthStack))
@@ -31,6 +28,51 @@ function* userSignUpSaga(action) {
   }
 }
 
+function* userChangePasswordSaga(action) {
+  try {
+    yield put(appActions.setShowGlobalIndicator(true))
+    const res = yield changePassword(action.body)
+    if (res?.isSuccess === true) {
+      yield put(userActions.changePasswordSuccess(res))
+      // TODO:
+    }
+  } catch (e) {
+    Toast.error(e.message)
+  } finally {
+    yield put(appActions.setShowGlobalIndicator(false))
+  }
+}
+
+function* userForgotPasswordSaga(action) {
+  try {
+    yield put(appActions.setShowGlobalIndicator(true))
+    const res = yield forgotPassword(action.body)
+    if (res?.isSuccess === true) {
+      yield put(userActions.forgotPasswordSuccess(res))
+      // TODO:
+    }
+  } catch (e) {
+    Toast.error(e.message)
+  } finally {
+    yield put(appActions.setShowGlobalIndicator(false))
+  }
+}
+
+function* userResetPasswordSaga(action) {
+  try {
+    yield put(appActions.setShowGlobalIndicator(true))
+    const res = yield resetPassword(action.body)
+    if (res?.isSuccess === true) {
+      yield put(userActions.resetPasswordSuccess(res))
+      // TODO:
+    }
+  } catch (e) {
+    Toast.error(e.message)
+  } finally {
+    yield put(appActions.setShowGlobalIndicator(false))
+  }
+}
+
 function* userLogout() {
   try {
   } catch (e) {}
@@ -40,4 +82,7 @@ export default [
   takeLatest(userActions.userLogin.type, userLoginSaga),
   takeLatest(userActions.userSignUp.type, userSignUpSaga),
   takeLatest(userActions.logout.type, userLogout),
+  takeLatest(userActions.changePasswordHandle, userChangePasswordSaga),
+  takeLatest(userActions.forgotPasswordHandle, userForgotPasswordSaga),
+  takeLatest(userActions.resetPasswordHandle, userResetPasswordSaga),
 ]

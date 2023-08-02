@@ -46,6 +46,11 @@ export const AuthNavigator = () => (
       component={screenMatch(RouteKey.ResetPasswordScreen)}
       options={optionsMatch}
     />
+    <Stack.Screen
+      name={RouteKey.ChangePasswordScreen}
+      component={screenMatch(RouteKey.ChangePasswordScreen)}
+      options={optionsMatch}
+    />
   </Stack.Navigator>
 )
 

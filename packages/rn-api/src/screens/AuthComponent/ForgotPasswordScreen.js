@@ -7,8 +7,6 @@ import {colors} from '../../themes'
 import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
-import {navigate} from '../../navigation/NavigationService'
-import RouteKey from '../../navigation/RouteKey'
 
 export const ForgotPasswordScreen = () => {
   const dispatch = useDispatch()
@@ -19,8 +17,8 @@ export const ForgotPasswordScreen = () => {
   })
 
   const onPressLogin = useCallback(() => {
-    dispatch(userActions.userLogin({id: inputValue.id, password: inputValue.password}))
-  }, [inputValue])
+    dispatch(userActions.forgotPasswordHandle({id: inputValue.id, password: inputValue.password}))
+  }, [inputValue, dispatch])
 
   const onChangeNewPass = useCallback(text => {
     setInputValue({newPassword: text})
@@ -37,7 +35,7 @@ export const ForgotPasswordScreen = () => {
   return (
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView>
-        <Text style={styles.titleText}>Change Password</Text>
+        <Text style={styles.titleText}>Forgot Password</Text>
         <PasswordInput onChangeText={onChangeNewPass} value={inputValue.id} title={'New Password'} />
         <View style={styles.passwordSection}>
           <PasswordInput
@@ -53,18 +51,6 @@ export const ForgotPasswordScreen = () => {
             title="Old Password"
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            navigate(RouteKey.ForgotPasswordScreen)
-          }}>
-          <Text style={styles.forgotPassword}>Forgot Password ?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigate(RouteKey.ResetPasswordScreen)
-          }}>
-          <Text style={styles.forgotPassword}>Reset Password ?</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={onPressLogin}>
           <Text>SAVE</Text>
         </TouchableOpacity>

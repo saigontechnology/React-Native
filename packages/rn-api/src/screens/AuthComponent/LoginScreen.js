@@ -9,50 +9,41 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
 import {navigate} from '../../navigation/NavigationService'
 import RouteKey from '../../navigation/RouteKey'
+import InputWIthLabel from '../../components/InputWIthLabel'
 
 export const LoginScreen = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useReducer((prev, next) => ({...prev, ...next}), {
-    newPassword: '',
-    confirmPassword: '',
-    oldPassword: '',
+    email: '',
+    password: '',
   })
 
   const onPressLogin = useCallback(() => {
-    dispatch(userActions.userLogin({id: inputValue.id, password: inputValue.password}))
-  }, [inputValue])
+    dispatch(userActions.userLogin())
+  }, [dispatch])
 
-  const onChangeNewPass = useCallback(text => {
-    setInputValue({newPassword: text})
+  const onChangeEmail = useCallback(text => {
+    setInputValue({email: text})
   }, [])
 
   const onChangePassword = useCallback(text => {
-    setInputValue({confirmPassword: text})
-  }, [])
-
-  const onChangeOldPassword = useCallback(text => {
-    setInputValue({oldPassword: text})
+    setInputValue({password: text})
   }, [])
 
   return (
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView>
-        <Text style={styles.titleText}>Change Password</Text>
-        <PasswordInput onChangeText={onChangeNewPass} value={inputValue.id} title={'New Password'} />
+        <Text style={styles.titleText}>Login Screen</Text>
+        <InputWIthLabel onChangeText={onChangeEmail} value={inputValue.id} title={'Email'} />
         <View style={styles.passwordSection}>
-          <PasswordInput
-            onChangeText={onChangePassword}
-            value={inputValue.password}
-            title="Confirm Password"
-          />
+          <PasswordInput onChangeText={onChangePassword} value={inputValue.password} title="Password" />
         </View>
-        <View style={styles.passwordSection}>
-          <PasswordInput
-            onChangeText={onChangeOldPassword}
-            value={inputValue.password}
-            title="Old Password"
-          />
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigate(RouteKey.ChangePasswordScreen)
+          }}>
+          <Text style={styles.forgotPassword}>Change Password</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigate(RouteKey.ForgotPasswordScreen)
