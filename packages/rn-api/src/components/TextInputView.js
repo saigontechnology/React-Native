@@ -5,6 +5,7 @@ import {responsiveHeight} from '../themes'
 const TextInputView = forwardRef((props, ref) => {
   const {
     value,
+    defaultValue,
     onChangeText,
     placeholder,
     onSubmitEditing,
@@ -45,6 +46,7 @@ const TextInputView = forwardRef((props, ref) => {
         multiline={multiline}
         textAlignVertical={'top'}
         secureTextEntry={secureTextEntry}
+        defaultValue={defaultValue}
         {...rest}
       />
     </View>

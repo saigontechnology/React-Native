@@ -1,57 +1,33 @@
 import React, {useCallback, useReducer} from 'react'
 import {ScreenContainer} from '../../components/ScreenContainer'
-import {Text, StyleSheet, View, TouchableOpacity} from 'react-native'
-import PasswordInput from '../../components/InputPassword'
+import {Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {responsiveHeight} from '../../themes/metrics'
 import {colors} from '../../themes'
 import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
+import InputWIthLabel from '../../components/InputWIthLabel'
 
 export const ForgotPasswordScreen = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useReducer((prev, next) => ({...prev, ...next}), {
-    newPassword: '',
-    confirmPassword: '',
-    oldPassword: '',
+    email: '',
   })
 
-  const onPressLogin = useCallback(() => {
-    dispatch(userActions.forgotPasswordHandle({id: inputValue.id, password: inputValue.password}))
+  const onForgotPassword = useCallback(() => {
+    dispatch(userActions.forgotPasswordHandle({email: inputValue.email}))
   }, [inputValue, dispatch])
 
-  const onChangeNewPass = useCallback(text => {
-    setInputValue({newPassword: text})
-  }, [])
-
-  const onChangePassword = useCallback(text => {
-    setInputValue({confirmPassword: text})
-  }, [])
-
-  const onChangeOldPassword = useCallback(text => {
-    setInputValue({oldPassword: text})
+  const onChangeEmail = useCallback(text => {
+    setInputValue({email: text})
   }, [])
 
   return (
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView>
         <Text style={styles.titleText}>Forgot Password</Text>
-        <PasswordInput onChangeText={onChangeNewPass} value={inputValue.id} title={'New Password'} />
-        <View style={styles.passwordSection}>
-          <PasswordInput
-            onChangeText={onChangePassword}
-            value={inputValue.password}
-            title="Confirm Password"
-          />
-        </View>
-        <View style={styles.passwordSection}>
-          <PasswordInput
-            onChangeText={onChangeOldPassword}
-            value={inputValue.password}
-            title="Old Password"
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={onPressLogin}>
+        <InputWIthLabel onChangeText={onChangeEmail} defaultValue={inputValue.id} title={'Email'} />
+        <TouchableOpacity style={styles.button} onPress={onForgotPassword}>
           <Text>SAVE</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>

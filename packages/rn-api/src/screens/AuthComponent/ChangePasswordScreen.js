@@ -16,8 +16,14 @@ export const ChangePasswordScreen = () => {
     oldPassword: '',
   })
 
-  const onPressLogin = useCallback(() => {
-    dispatch(userActions.changePasswordHandle({id: inputValue.id, password: inputValue.password}))
+  const onSaveChangePassword = useCallback(() => {
+    dispatch(
+      userActions.changePasswordHandle({
+        newPassword: inputValue.newPassword,
+        confirmPassword: inputValue.confirmPassword,
+        oldPassword: inputValue.oldPassword,
+      }),
+    )
   }, [inputValue, dispatch])
 
   const onChangeNewPass = useCallback(text => {
@@ -36,22 +42,22 @@ export const ChangePasswordScreen = () => {
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView>
         <Text style={styles.titleText}>Change Password</Text>
-        <PasswordInput onChangeText={onChangeNewPass} value={inputValue.id} title={'New Password'} />
+        <PasswordInput onChangeText={onChangeNewPass} defaultValue={inputValue.id} title={'New Password'} />
         <View style={styles.passwordSection}>
           <PasswordInput
             onChangeText={onChangePassword}
-            value={inputValue.password}
+            defaultValue={inputValue.password}
             title="Confirm Password"
           />
         </View>
         <View style={styles.passwordSection}>
           <PasswordInput
             onChangeText={onChangeOldPassword}
-            value={inputValue.password}
+            defaultValue={inputValue.password}
             title="Old Password"
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={onPressLogin}>
+        <TouchableOpacity style={styles.button} onPress={onSaveChangePassword}>
           <Text>SAVE</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>

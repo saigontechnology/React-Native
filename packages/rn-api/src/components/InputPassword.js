@@ -5,7 +5,7 @@ import {responsiveHeight} from '../themes/metrics'
 import TextInputView from './TextInputView'
 
 const PasswordInput = props => {
-  const {style, title, onChangeText, value, ...rest} = props
+  const {style, title, onChangeText, value, defaultValue, ...rest} = props
   const [showPassword, setShowPassword] = useState(false)
 
   const onClickShowPassword = () => {
@@ -21,6 +21,7 @@ const PasswordInput = props => {
           customStyle={styles.textInputStyle}
           onChangeText={onChangeText}
           value={value}
+          defaultValue={defaultValue}
           {...rest}
         />
         <TouchableOpacity style={styles.icon} onPress={onClickShowPassword}>

@@ -4,7 +4,7 @@ import {responsiveHeight} from '../themes/metrics'
 import TextInputView from './TextInputView'
 
 const InputWithLabel = props => {
-  const {title, style, onChangeText, value, ...rest} = props
+  const {title, style, onChangeText, value, defaultValue, ...rest} = props
   return (
     <View style={[styles.container, style]}>
       {title && <Text style={styles.title}>{title}</Text>}
@@ -12,6 +12,7 @@ const InputWithLabel = props => {
         onChangeText={onChangeText}
         customStyle={styles.textInputStyle}
         value={value}
+        defaultValue={defaultValue}
         {...rest}
       />
     </View>
