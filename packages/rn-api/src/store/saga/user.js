@@ -34,6 +34,7 @@ function* userChangePasswordSaga(action) {
     const res = yield changePassword(action.body)
     if (res?.isSuccess === true) {
       yield put(userActions.changePasswordSuccess(res))
+      Toast.success('SUCCESSFULLY')
       // TODO:
     }
   } catch (e) {
@@ -49,6 +50,7 @@ function* userForgotPasswordSaga(action) {
     const res = yield forgotPassword(action.body)
     if (res?.isSuccess === true) {
       yield put(userActions.forgotPasswordSuccess(res))
+      Toast.success('SUCCESSFULLY')
       // TODO:
     }
   } catch (e) {
@@ -64,6 +66,7 @@ function* userResetPasswordSaga(action) {
     const res = yield resetPassword(action.body)
     if (res?.isSuccess === true) {
       yield put(userActions.resetPasswordSuccess(res))
+      Toast.success('SUCCESSFULLY')
       // TODO:
     }
   } catch (e) {
