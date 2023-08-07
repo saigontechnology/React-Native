@@ -5,6 +5,7 @@ import {
   ForgotPasswordScreen,
   ResetPasswordScreen,
   ChangePasswordScreen,
+  ProfileScreen,
 } from '../screens'
 // Screen Import
 import HomeScreen from '../screens/HomeComponent/HomeScreen'
@@ -25,6 +26,8 @@ export const screenMatch = screen => {
       return ResetPasswordScreen
     case RouteKey.ChangePasswordScreen:
       return ChangePasswordScreen
+    case RouteKey.ProfileScreen:
+      return ProfileScreen
     default:
       return ''
   }

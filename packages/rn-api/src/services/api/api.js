@@ -1,6 +1,6 @@
 import Config from 'react-native-config'
 // eslint-disable-next-line import/no-cycle
-import {postRequest} from '../networking/index'
+import {getRequest, postRequest, putRequest} from '../networking/index'
 
 export const AUTH_API = {
   // ADD ENDPOINT REFRESH TOKEN HERE
@@ -21,5 +21,15 @@ export async function forgotPassword(body) {
 
 export async function resetPassword(body) {
   const rs = await postRequest(`${baseURL}/Account/resetpassword`, body)
+  return rs
+}
+
+export async function getUserProfile(id) {
+  const rs = await getRequest(`${baseURL}/UserProfile/${id}`)
+  return rs
+}
+
+export async function updateUserProfile(id, body) {
+  const rs = await putRequest(`${baseURL}/UserProfile/${id}`, body)
   return rs
 }

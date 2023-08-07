@@ -7,6 +7,7 @@ export default {
   ForgotPasswordScreen: 'ForgotPasswordScreen',
   ResetPasswordScreen: 'ResetPasswordScreen',
   ChangePasswordScreen: 'ChangePasswordScreen',
+  ProfileScreen: 'ProfileScreen',
 
   /** Stack */
   AuthStack: 'AuthStack',

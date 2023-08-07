@@ -21,6 +21,11 @@ export const HomeNavigator = () => (
       component={screenMatch(RouteKey.HomeScreen)}
       options={optionsMatch}
     />
+    <Stack.Screen
+      name={RouteKey.ProfileScreen}
+      component={screenMatch(RouteKey.ProfileScreen)}
+      options={optionsMatch}
+    />
   </Stack.Navigator>
 )
 

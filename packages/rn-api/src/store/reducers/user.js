@@ -24,6 +24,13 @@ export const userSlice = createSlice({
     [USER_CONSTANTS_ACTIONS.RESET_PASSWORD_ACTIONS.HANDLER]: () => {},
     [USER_CONSTANTS_ACTIONS.RESET_PASSWORD_ACTIONS.SUCCESS]: () => {},
     [USER_CONSTANTS_ACTIONS.RESET_PASSWORD_ACTIONS.FAILURE]: () => {},
+    [USER_CONSTANTS_ACTIONS.GET_USER_PROFILE_ACTIONS.HANDLER]: () => {},
+    [USER_CONSTANTS_ACTIONS.GET_USER_PROFILE_ACTIONS.SUCCESS]: (state, action) => {
+      state.userInfo = action.data
+    },
+    [USER_CONSTANTS_ACTIONS.GET_USER_PROFILE_ACTIONS.FAILURE]: () => {},
+    [USER_CONSTANTS_ACTIONS.UPDATE_USER_INFO_ACTIONS.HANDLER]: () => {},
+    [USER_CONSTANTS_ACTIONS.UPDATE_USER_INFO_ACTIONS.FAILURE]: () => {},
   },
   extraReducers: builder => {},
 })
@@ -42,6 +49,11 @@ export const userActions = {
   resetPasswordHandle: userSlice.actions[USER_CONSTANTS_ACTIONS.RESET_PASSWORD_ACTIONS.HANDLER],
   resetPasswordSuccess: userSlice.actions[USER_CONSTANTS_ACTIONS.RESET_PASSWORD_ACTIONS.SUCCESS],
   resetPasswordFailure: userSlice.actions[USER_CONSTANTS_ACTIONS.RESET_PASSWORD_ACTIONS.FAILURE],
+  getUserProfileHandle: userSlice.actions[USER_CONSTANTS_ACTIONS.GET_USER_PROFILE_ACTIONS.HANDLER],
+  getUserProfileSuccess: userSlice.actions[USER_CONSTANTS_ACTIONS.GET_USER_PROFILE_ACTIONS.SUCCESS],
+  getUserProfileFailure: userSlice.actions[USER_CONSTANTS_ACTIONS.GET_USER_PROFILE_ACTIONS.FAILURE],
+  updateUserProfileHandle: userSlice.actions[USER_CONSTANTS_ACTIONS.UPDATE_USER_INFO_ACTIONS.HANDLER],
+  updateUserProfileFailure: userSlice.actions[USER_CONSTANTS_ACTIONS.UPDATE_USER_INFO_ACTIONS.FAILURE],
 }
 
 export default userSlice.reducer

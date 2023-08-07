@@ -2,7 +2,13 @@ import {takeLatest, delay, put} from 'redux-saga/effects'
 import {appActions, userActions} from '../reducers'
 import RouteKey from '../../navigation/RouteKey'
 import {Toast} from '../../components'
-import {changePassword, forgotPassword, resetPassword} from '../../services/api/api'
+import {
+  changePassword,
+  forgotPassword,
+  getUserProfile,
+  resetPassword,
+  updateUserProfile,
+} from '../../services/api/api'
 
 function* userLoginSaga(action) {
   try {
@@ -76,6 +82,38 @@ function* userResetPasswordSaga(action) {
   }
 }
 
+function* userGetUserProfileSaga(action) {
+  try {
+    yield put(appActions.setShowGlobalIndicator(true))
+    const res = yield getUserProfile(action.id)
+    if (res?.isSuccess === true) {
+      Toast.success('SUCCESSFULLY')
+      yield put(userActions.getUserProfileSuccess(res))
+    }
+  } catch (e) {
+    Toast.error(e.message)
+    yield put(userActions.getUserProfileFailure)
+  } finally {
+    yield put(appActions.setShowGlobalIndicator(false))
+  }
+}
+
+function* userUpdateInfoSaga(action) {
+  try {
+    yield put(appActions.setShowGlobalIndicator(true))
+    const res = yield updateUserProfile(action.id, action.body)
+    if (res?.isSuccess === true) {
+      Toast.success('SUCCESSFULLY')
+      yield put(userActions.getUserProfileSuccess(res))
+    }
+  } catch (e) {
+    Toast.error(e.message)
+    yield put(userActions.updateUserProfileFailure)
+  } finally {
+    yield put(appActions.setShowGlobalIndicator(false))
+  }
+}
+
 function* userLogout() {
   try {
   } catch (e) {}
@@ -88,4 +126,6 @@ export default [
   takeLatest(userActions.changePasswordHandle, userChangePasswordSaga),
   takeLatest(userActions.forgotPasswordHandle, userForgotPasswordSaga),
   takeLatest(userActions.resetPasswordHandle, userResetPasswordSaga),
+  takeLatest(userActions.getUserProfileHandle, userGetUserProfileSaga),
+  takeLatest(userActions.updateUserProfileHandle, userUpdateInfoSaga),
 ]
