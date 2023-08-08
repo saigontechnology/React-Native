@@ -9,7 +9,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
 import {navigate} from '../../navigation/NavigationService'
 import RouteKey from '../../navigation/RouteKey'
-import InputWIthLabel from '../../components/InputWIthLabel'
+import InputWithLabel from '../../components/InputWithLabel'
 
 export const LoginScreen = () => {
   const dispatch = useDispatch()
@@ -34,7 +34,7 @@ export const LoginScreen = () => {
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView>
         <Text style={styles.titleText}>Login Screen</Text>
-        <InputWIthLabel onChangeText={onChangeEmail} value={inputValue.id} title={'Email'} />
+        <InputWithLabel onChangeText={onChangeEmail} value={inputValue.id} title={'Email'} />
         <View style={styles.passwordSection}>
           <PasswordInput onChangeText={onChangePassword} value={inputValue.password} title="Password" />
         </View>

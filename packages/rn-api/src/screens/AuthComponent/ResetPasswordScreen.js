@@ -7,7 +7,7 @@ import {colors} from '../../themes'
 import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
-import InputWIthLabel from '../../components/InputWIthLabel'
+import InputWithLabel from '../../components/InputWithLabel'
 
 export const ResetPasswordScreen = () => {
   const dispatch = useDispatch()
@@ -52,7 +52,7 @@ export const ResetPasswordScreen = () => {
           />
         </View>
         <View style={styles.passwordSection}>
-          <InputWIthLabel onChangeText={onChangeEmail} defaultValue={inputValue.id} title={'Email'} />
+          <InputWithLabel onChangeText={onChangeEmail} defaultValue={inputValue.id} title={'Email'} />
         </View>
         <TouchableOpacity style={styles.button} onPress={onResetPassword}>
           <Text>SAVE</Text>

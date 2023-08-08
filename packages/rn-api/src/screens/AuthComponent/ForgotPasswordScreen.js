@@ -6,7 +6,7 @@ import {colors} from '../../themes'
 import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
-import InputWIthLabel from '../../components/InputWIthLabel'
+import InputWithLabel from '../../components/InputWithLabel'
 
 export const ForgotPasswordScreen = () => {
   const dispatch = useDispatch()
@@ -24,9 +24,9 @@ export const ForgotPasswordScreen = () => {
 
   return (
     <ScreenContainer style={styles.container}>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView style={styles.contentSection}>
         <Text style={styles.titleText}>Forgot Password</Text>
-        <InputWIthLabel onChangeText={onChangeEmail} defaultValue={inputValue.id} title={'Email'} />
+        <InputWithLabel onChangeText={onChangeEmail} defaultValue={inputValue.id} title={'Email'} />
         <TouchableOpacity style={styles.button} onPress={onForgotPassword}>
           <Text>SAVE</Text>
         </TouchableOpacity>
@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
   container: {
     padding: responsiveHeight(10),
     alignItems: 'center',
+  },
+  contentSection: {
+    width: '100%',
   },
   titleText: {
     fontSize: responsiveHeight(25),
