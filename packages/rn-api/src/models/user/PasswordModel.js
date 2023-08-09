@@ -1,12 +1,13 @@
 export default class PasswordModel {
-  constructor(data) {
+  constructor(message, errorCode, data, isSuccess) {
+    this.message = message
+    this.errorCode = errorCode
     this.data = data
+    this.isSuccess = isSuccess
   }
 
   static parseFromJson = payload => {
-    const obj = new PasswordModel()
-    const {data} = payload
-    obj.data = data
-    return obj
+    const {message, errorCode, data, isSuccess} = payload
+    return new PasswordModel(message, errorCode, data, isSuccess)
   }
 }

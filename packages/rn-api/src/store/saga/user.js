@@ -31,7 +31,7 @@ function* userSignUpSaga(action) {
 function* userChangePasswordSaga(action) {
   try {
     yield put(appActions.setShowGlobalIndicator(true))
-    const res = yield changePassword(action.body)
+    const res = yield changePassword(action.payload)
     if (res?.isSuccess === true) {
       yield put(userActions.changePasswordSuccess(res))
       Toast.success('SUCCESSFULLY')
@@ -47,7 +47,7 @@ function* userChangePasswordSaga(action) {
 function* userForgotPasswordSaga(action) {
   try {
     yield put(appActions.setShowGlobalIndicator(true))
-    const res = yield forgotPassword(action.body)
+    const res = yield forgotPassword(action.payload)
     if (res?.isSuccess === true) {
       yield put(userActions.forgotPasswordSuccess(res))
       Toast.success('SUCCESSFULLY')
@@ -63,7 +63,7 @@ function* userForgotPasswordSaga(action) {
 function* userResetPasswordSaga(action) {
   try {
     yield put(appActions.setShowGlobalIndicator(true))
-    const res = yield resetPassword(action.body)
+    const res = yield resetPassword(action.payload)
     if (res?.isSuccess === true) {
       yield put(userActions.resetPasswordSuccess(res))
       Toast.success('SUCCESSFULLY')

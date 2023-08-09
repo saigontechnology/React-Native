@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer} from 'react'
+import React, {useCallback, useState} from 'react'
 import {ScreenContainer} from '../../components/ScreenContainer'
 import {Text, StyleSheet, TouchableOpacity} from 'react-native'
 import {responsiveHeight} from '../../themes/metrics'
@@ -10,23 +10,21 @@ import InputWithLabel from '../../components/InputWithLabel'
 
 export const ForgotPasswordScreen = () => {
   const dispatch = useDispatch()
-  const [inputValue, setInputValue] = useReducer((prev, next) => ({...prev, ...next}), {
-    email: '',
-  })
+  const [email, setEmail] = useState('')
 
   const onForgotPassword = useCallback(() => {
-    dispatch(userActions.forgotPasswordHandle({email: inputValue.email}))
-  }, [inputValue, dispatch])
+    dispatch(userActions.forgotPasswordHandle({email}))
+  }, [email, dispatch])
 
   const onChangeEmail = useCallback(text => {
-    setInputValue({email: text})
+    setEmail(text)
   }, [])
 
   return (
     <ScreenContainer style={styles.container}>
       <KeyboardAwareScrollView style={styles.contentSection}>
         <Text style={styles.titleText}>Forgot Password</Text>
-        <InputWithLabel onChangeText={onChangeEmail} defaultValue={inputValue.id} title={'Email'} />
+        <InputWithLabel onChangeText={onChangeEmail} defaultValue={email} title={'Email'} />
         <TouchableOpacity style={styles.button} onPress={onForgotPassword}>
           <Text>SAVE</Text>
         </TouchableOpacity>
