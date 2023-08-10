@@ -1,13 +1,18 @@
-export default class PasswordModel {
+import {ApiResponseModel} from '../ApiResponseModel'
+
+export class PasswordModel extends ApiResponseModel {
   constructor(message, errorCode, data, isSuccess) {
-    this.message = message
-    this.errorCode = errorCode
-    this.data = data
-    this.isSuccess = isSuccess
+    super(message, errorCode, data, isSuccess)
   }
 
   static parseFromJson = payload => {
     const {message, errorCode, data, isSuccess} = payload
-    return new PasswordModel(message, errorCode, data, isSuccess)
+
+    // Customize the 'data' property in PasswordModel
+    const customizedData = {
+      password: data?.password ?? '',
+    }
+
+    return new PasswordModel(message, errorCode, customizedData, isSuccess)
   }
 }

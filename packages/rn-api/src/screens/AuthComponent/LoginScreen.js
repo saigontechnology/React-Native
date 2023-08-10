@@ -1,15 +1,12 @@
 import React, {useCallback, useReducer} from 'react'
-import {ScreenContainer} from '../../components/ScreenContainer'
+import {ScreenContainer, InputWithLabel, PasswordInput} from '../../components'
 import {Text, StyleSheet, View, TouchableOpacity} from 'react-native'
-import PasswordInput from '../../components/InputPassword'
-import {responsiveHeight} from '../../themes/metrics'
-import {colors} from '../../themes'
+import {responsiveHeight, colors} from '../../themes'
 import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
 import {navigate} from '../../navigation/NavigationService'
 import RouteKey from '../../navigation/RouteKey'
-import InputWithLabel from '../../components/InputWithLabel'
 
 export const LoginScreen = () => {
   const dispatch = useDispatch()

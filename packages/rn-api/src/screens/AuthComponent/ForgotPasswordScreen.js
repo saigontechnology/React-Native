@@ -1,12 +1,10 @@
 import React, {useCallback, useState} from 'react'
-import {ScreenContainer} from '../../components/ScreenContainer'
+import {ScreenContainer, InputWithLabel} from '../../components'
 import {Text, StyleSheet, TouchableOpacity} from 'react-native'
-import {responsiveHeight} from '../../themes/metrics'
-import {colors} from '../../themes'
+import {responsiveHeight, colors} from '../../themes'
 import {useDispatch} from 'react-redux'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {userActions} from '../../store/reducers'
-import InputWithLabel from '../../components/InputWithLabel'
 
 export const ForgotPasswordScreen = () => {
   const dispatch = useDispatch()

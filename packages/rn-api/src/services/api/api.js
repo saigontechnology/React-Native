@@ -1,7 +1,7 @@
 import Config from 'react-native-config'
 // eslint-disable-next-line import/no-cycle
 import {postRequest} from '../networking/index'
-import PasswordModel from '../../models/user/PasswordModel'
+import {PasswordModel} from '../../models'
 
 export const AUTH_API = {
   // ADD ENDPOINT REFRESH TOKEN HERE
