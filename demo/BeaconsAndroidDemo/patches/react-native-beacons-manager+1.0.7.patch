@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-beacons-manager/android/build.gradle b/node_modules/react-native-beacons-manager/android/build.gradle
+index 9b366a2..b1b7c41 100644
+--- a/node_modules/react-native-beacons-manager/android/build.gradle
++++ b/node_modules/react-native-beacons-manager/android/build.gradle
+@@ -27,7 +27,7 @@ repositories {
+ }
+ 
+ dependencies {
+-    compile fileTree(dir: 'libs', include: ['*.jar'])
+-    compile 'com.facebook.react:react-native:0.12.+'
+-    compile 'org.altbeacon:android-beacon-library:2.9.2'
++    implementation fileTree(dir: 'libs', include: ['*.jar'])
++    implementation 'com.facebook.react:react-native:0.12.+'
++    implementation 'org.altbeacon:android-beacon-library:2.19.6'
+ }
