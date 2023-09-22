@@ -5,9 +5,12 @@
  * @format
  */
 
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
+  PermissionsAndroid,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -16,51 +19,100 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  accelerometer,
+  setUpdateIntervalForType,
+  SensorTypes,
+} from 'react-native-sensors';
+import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
+import {map, filter} from 'rxjs/operators';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
+import {GoogleMap} from './src';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
+
+  const [sensorText, setSensorText] = useState<string>('');
+  const [hasLocationPermission, setHasLocationPermission] =
+    useState<boolean>(false);
+  const [currentLocation, setCurrentLocation] = useState<
+    GeoPosition | undefined
+  >();
+
+  const requestPermission = useCallback(async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const resultAndroid = await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        ]);
+        if (
+          resultAndroid['android.permission.ACCESS_COARSE_LOCATION'] ===
+            'granted' &&
+          resultAndroid['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
+        ) {
+          setHasLocationPermission(true);
+        }
+      } catch (error) {
+        console.log('requestPermission error', error);
+        setHasLocationPermission(false);
+      }
+      return;
+    }
+    try {
+      const resultIOS = await Geolocation.requestAuthorization('always');
+      if (resultIOS === 'granted') {
+        setHasLocationPermission(true);
+      }
+    } catch (error) {
+      console.log('requestPermission error', error);
+    }
+  }, [setHasLocationPermission]);
+
+  useEffect(() => {
+    requestPermission().then();
+  }, [requestPermission]);
+
+  // setUpdateIntervalForType(SensorTypes.accelerometer, 50); // defaults to 100ms
+  //
+  // useEffect(() => {
+  //   accelerometer
+  //     .pipe(
+  //       map(({x, y, z}) => x + y + z),
+  //       filter(speed => speed > 15),
+  //     )
+  //     .subscribe(
+  //       speed => {
+  //         console.log(`You moved your phone with ${speed}`);
+  //         setSensorText(`You moved your phone with ${speed}`);
+  //       },
+  //       error => {
+  //         console.log('The sensor is not available', error);
+  //       },
+  //     );
+  // }, []);
+
+  const handleGetCurrentLocation = useCallback(() => {
+    if (hasLocationPermission) {
+      Geolocation.getCurrentPosition(
+        position => {
+          console.log(position);
+          setCurrentLocation(position);
+        },
+        error => {
+          setCurrentLocation(undefined);
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    }
+  }, [hasLocationPermission]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -68,50 +120,48 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+      <View style={{flexGrow: 1}}>
+        <GoogleMap
+          defaultLocation={
+            currentLocation?.coords
+              ? {
+                  latitude: currentLocation?.coords?.latitude,
+                  longitude: currentLocation?.coords?.longitude,
+                }
+              : undefined
+          }
+        />
+        <View style={styles.button}>
+          <Button
+            onPress={handleGetCurrentLocation}
+            title={'check current location'}
+          />
         </View>
-      </ScrollView>
+        <Text style={styles.text}>
+          <Text>{`latitude: ${currentLocation?.coords?.latitude}\n`}</Text>
+          <Text>{`longitude: ${currentLocation?.coords?.longitude}\n`}</Text>
+          <Text>{`accuracy: ${currentLocation?.coords?.accuracy}\n`}</Text>
+          <Text>{`speed: ${currentLocation?.coords?.speed}\n`}</Text>
+          <Text>{`heading: ${currentLocation?.coords?.heading}\n`}</Text>
+          <Text>{`altitude: ${currentLocation?.coords?.altitude}\n`}</Text>
+          <Text>{`altitudeAccuracy: ${currentLocation?.coords?.altitudeAccuracy}`}</Text>
+        </Text>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  text: {
+    right: 10,
+    color: 'white',
+    position: 'absolute',
+    backgroundColor: Colors.darker,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  button: {
+    position: 'absolute',
+    bottom: 24,
+    padding: 16,
   },
 });
 
