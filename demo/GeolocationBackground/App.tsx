@@ -6,29 +6,22 @@
  */
 
 import React, {useCallback, useEffect, useState} from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   Button,
   PermissionsAndroid,
   Platform,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
 } from 'react-native';
-import {
-  accelerometer,
-  setUpdateIntervalForType,
-  SensorTypes,
-} from 'react-native-sensors';
-import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
-import {map, filter} from 'rxjs/operators';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
-import {GoogleMap} from './src';
+import {DatabaseRef, GoogleMap} from './src';
+import {LatLng} from 'react-native-maps';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -37,10 +30,10 @@ function App(): JSX.Element {
     flex: 1,
   };
 
-  const [sensorText, setSensorText] = useState<string>('');
   const [hasLocationPermission, setHasLocationPermission] =
     useState<boolean>(false);
-  const [currentLocation, setCurrentLocation] = useState<
+  const [currentLocations, setCurrentLocations] = useState<GeoPosition[]>([]);
+  const [positionLocation, setPositionLocation] = useState<
     GeoPosition | undefined
   >();
 
@@ -74,38 +67,21 @@ function App(): JSX.Element {
     }
   }, [setHasLocationPermission]);
 
-  useEffect(() => {
-    requestPermission().then();
-  }, [requestPermission]);
+  const pushToFirebase = useCallback(
+    (location: LatLng) =>
+      DatabaseRef.set(location).then(() => console.log('Data updated.')),
+    [],
+  );
 
-  // setUpdateIntervalForType(SensorTypes.accelerometer, 50); // defaults to 100ms
-  //
-  // useEffect(() => {
-  //   accelerometer
-  //     .pipe(
-  //       map(({x, y, z}) => x + y + z),
-  //       filter(speed => speed > 15),
-  //     )
-  //     .subscribe(
-  //       speed => {
-  //         console.log(`You moved your phone with ${speed}`);
-  //         setSensorText(`You moved your phone with ${speed}`);
-  //       },
-  //       error => {
-  //         console.log('The sensor is not available', error);
-  //       },
-  //     );
-  // }, []);
-
-  const handleGetCurrentLocation = useCallback(() => {
+  const handleGetCurrentLocations = useCallback(() => {
     if (hasLocationPermission) {
       Geolocation.getCurrentPosition(
         position => {
           console.log(position);
-          setCurrentLocation(position);
+
+          setCurrentLocations(prevState => [...prevState, position]);
         },
         error => {
-          setCurrentLocation(undefined);
           // See error code charts below.
           console.log(error.code, error.message);
         },
@@ -113,6 +89,47 @@ function App(): JSX.Element {
       );
     }
   }, [hasLocationPermission]);
+
+  useEffect(() => {
+    requestPermission().then(handleGetCurrentLocations);
+  }, [handleGetCurrentLocations, requestPermission]);
+
+  useEffect(() => {
+    // Start watching the user's position
+    const watchId = Geolocation.watchPosition(
+      position => {
+        console.log(position);
+        setPositionLocation(position);
+      },
+      error => {
+        console.log(error.code, error.message);
+        setPositionLocation(undefined);
+      },
+      {
+        enableHighAccuracy: true,
+        distanceFilter: 0,
+        accuracy: {
+          android: 'high',
+          ios: 'bestForNavigation',
+        },
+        interval: 2000,
+        fastestInterval: 1000,
+      },
+    );
+
+    return () => {
+      Geolocation.clearWatch(watchId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (positionLocation) {
+      pushToFirebase({
+        longitude: positionLocation.coords.longitude,
+        latitude: positionLocation.coords.latitude,
+      }).then();
+    }
+  }, [positionLocation, pushToFirebase]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -123,28 +140,32 @@ function App(): JSX.Element {
       <View style={{flexGrow: 1}}>
         <GoogleMap
           defaultLocation={
-            currentLocation?.coords
+            currentLocations[0]?.coords
               ? {
-                  latitude: currentLocation?.coords?.latitude,
-                  longitude: currentLocation?.coords?.longitude,
+                  latitude: currentLocations[0]?.coords?.latitude,
+                  longitude: currentLocations[0]?.coords?.longitude,
                 }
               : undefined
           }
+          listAssets={currentLocations.map(e => ({
+            latitude: e?.coords?.latitude ?? 0,
+            longitude: e?.coords?.longitude ?? 0,
+          }))}
         />
         <View style={styles.button}>
           <Button
-            onPress={handleGetCurrentLocation}
-            title={'check current location'}
+            onPress={handleGetCurrentLocations}
+            title={'add Current Position'}
           />
         </View>
         <Text style={styles.text}>
-          <Text>{`latitude: ${currentLocation?.coords?.latitude}\n`}</Text>
-          <Text>{`longitude: ${currentLocation?.coords?.longitude}\n`}</Text>
-          <Text>{`accuracy: ${currentLocation?.coords?.accuracy}\n`}</Text>
-          <Text>{`speed: ${currentLocation?.coords?.speed}\n`}</Text>
-          <Text>{`heading: ${currentLocation?.coords?.heading}\n`}</Text>
-          <Text>{`altitude: ${currentLocation?.coords?.altitude}\n`}</Text>
-          <Text>{`altitudeAccuracy: ${currentLocation?.coords?.altitudeAccuracy}`}</Text>
+          <Text>{`latitude: ${positionLocation?.coords?.latitude}\n`}</Text>
+          <Text>{`longitude: ${positionLocation?.coords?.longitude}\n`}</Text>
+          <Text>{`accuracy: ${positionLocation?.coords?.accuracy}\n`}</Text>
+          <Text>{`speed: ${positionLocation?.coords?.speed}\n`}</Text>
+          <Text>{`heading: ${positionLocation?.coords?.heading}\n`}</Text>
+          <Text>{`altitude: ${positionLocation?.coords?.altitude}\n`}</Text>
+          <Text>{`altitudeAccuracy: ${positionLocation?.coords?.altitudeAccuracy}`}</Text>
         </Text>
       </View>
     </SafeAreaView>

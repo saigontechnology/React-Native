@@ -73,6 +73,12 @@ export const GoogleMap = memo<IGoogleMapScreen>(
           onPress={(event: MapPressEvent) => {
             handleMapPress(event);
           }}>
+          <Marker
+            coordinate={region}
+            description={'Current Position'}
+            title={'Current Position'}
+            style={styles.icon}
+          />
           {listAssets.length > 0 &&
             listAssets?.map((item, index) => (
               <Marker

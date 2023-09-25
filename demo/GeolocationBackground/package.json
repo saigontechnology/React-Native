@@ -10,12 +10,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^18.5.0",
+    "@react-native-firebase/database": "^18.5.0",
     "@timwangdev/react-native-geocoder": "https://github.com/honghp95/react-native-geocoder-reborn",
     "react": "18.2.0",
     "react-native": "0.72.4",
     "react-native-geolocation-service": "^5.3.1",
-    "react-native-maps": "^1.7.1",
-    "react-native-sensors": "^7.3.6"
+    "react-native-maps": "^1.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
