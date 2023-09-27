@@ -1,5 +1,6 @@
 import {useState, useEffect, useCallback} from 'react'
 import * as Location from 'expo-location'
+import { LOCATION_TASK_NAME } from "../services";
 
 export const useLocation = () => {
   const [hasLocationPermission, setHasLocationPermission] = useState<boolean>(false)
@@ -42,6 +43,11 @@ export const useLocation = () => {
     }
     return false
   }, [])
+  const hasTaskBackground = useCallback(async (taskName = LOCATION_TASK_NAME) => {
+    const isHas = await Location.hasStartedLocationUpdatesAsync(taskName)
+    console.log('hasTaskBackground', isHas)
+    return isHas
+  }, [])
 
   return {
     hasLocationPermission,
@@ -49,5 +55,6 @@ export const useLocation = () => {
     positionLocation,
     setPositionLocation,
     getCurrentLocation,
+    hasTaskBackground,
   }
 }

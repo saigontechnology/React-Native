@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {Button, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native'
 import {Colors} from 'react-native/Libraries/NewAppScreen'
 
@@ -37,20 +37,35 @@ function App(): JSX.Element {
     flex: 1,
   }
 
-  const {hasLocationPermission, positionLocation, getCurrentLocation, requestLocationBackground} =
-    useLocation()
+  const {
+    hasLocationPermission,
+    positionLocation,
+    getCurrentLocation,
+    requestLocationBackground,
+    hasTaskBackground,
+  } = useLocation()
 
   const handleGetCurrentLocations = useCallback(async () => {
     if (hasLocationPermission) {
       await getCurrentLocation()
     }
   }, [getCurrentLocation, hasLocationPermission])
+  const [isHasTaskBackground, setIsHasTaskBackground] = useState<boolean>(false)
 
   const handleRequestLocationBackground = useCallback(async () => {
     if (hasLocationPermission) {
       await requestLocationBackground()
     }
   }, [hasLocationPermission, requestLocationBackground])
+
+  const handleHasTaskBackground = useCallback(async () => {
+    const isHas = await hasTaskBackground()
+    setIsHasTaskBackground(isHas)
+  }, [hasTaskBackground])
+
+  useEffect(() => {
+    handleHasTaskBackground().then()
+  }, [])
 
   useEffect(() => {
     if (positionLocation) {
@@ -77,10 +92,24 @@ function App(): JSX.Element {
         />
         <View style={styles.button}>
           <View style={styles.containerButton}>
-            <Button onPress={() => stopLocationUpdate().then()} title={'Stop Tracking'} />
+            <Button
+              color={'red'}
+              disabled={!isHasTaskBackground}
+              onPress={() => {
+                stopLocationUpdate().then(() => setIsHasTaskBackground(false))
+              }}
+              title={'Stop Tracking'}
+            />
           </View>
           <View style={styles.containerButton}>
-            <Button onPress={() => startLocationUpdate().then()} title={'Start Tracking'} />
+            <Button
+              color={'green'}
+              disabled={isHasTaskBackground}
+              onPress={() => {
+                startLocationUpdate().then(() => setIsHasTaskBackground(true))
+              }}
+              title={'Start Tracking'}
+            />
           </View>
           <View style={styles.containerButton}>
             <Button onPress={handleRequestLocationBackground} title={'request Location Background'} />
