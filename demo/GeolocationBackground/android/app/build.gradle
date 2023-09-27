@@ -112,7 +112,7 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
     implementation 'com.google.android.gms:play-services-base:18.2.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

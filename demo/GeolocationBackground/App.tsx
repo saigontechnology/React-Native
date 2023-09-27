@@ -5,131 +5,48 @@
  * @format
  */
 
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  Button,
-  PermissionsAndroid,
-  Platform,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import React, {useCallback, useEffect, useState} from 'react'
+import {Button, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native'
+import {Colors} from 'react-native/Libraries/NewAppScreen'
 
-import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
-import {DatabaseRef, GoogleMap} from './src';
-import {LatLng} from 'react-native-maps';
+import {DatabaseRef, GoogleMap, useLocation} from './src'
+import {LocationObject as GeoPosition} from 'expo-location'
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === 'dark'
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     flex: 1,
-  };
+  }
 
-  const [hasLocationPermission, setHasLocationPermission] =
-    useState<boolean>(false);
-  const [currentLocations, setCurrentLocations] = useState<GeoPosition[]>([]);
-  const [positionLocation, setPositionLocation] = useState<
-    GeoPosition | undefined
-  >();
+  const [currentLocations, setCurrentLocations] = useState<GeoPosition[]>([])
 
-  const requestPermission = useCallback(async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const resultAndroid = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        ]);
-        if (
-          resultAndroid['android.permission.ACCESS_COARSE_LOCATION'] ===
-            'granted' &&
-          resultAndroid['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
-        ) {
-          setHasLocationPermission(true);
-        }
-      } catch (error) {
-        console.log('requestPermission error', error);
-        setHasLocationPermission(false);
-      }
-      return;
-    }
-    try {
-      const resultIOS = await Geolocation.requestAuthorization('always');
-      if (resultIOS === 'granted') {
-        setHasLocationPermission(true);
-      }
-    } catch (error) {
-      console.log('requestPermission error', error);
-    }
-  }, [setHasLocationPermission]);
+  const {hasLocationPermission, positionLocation, getCurrentLocation, requestLocationBackground} =
+    useLocation()
 
   const pushToFirebase = useCallback(
-    (location: LatLng) =>
-      DatabaseRef.set(location).then(() => console.log('Data updated.')),
+    (location: any) => DatabaseRef.set(location).then(() => console.log('Data updated.')),
     [],
-  );
+  )
 
-  const handleGetCurrentLocations = useCallback(() => {
+  const handleGetCurrentLocations = useCallback(async () => {
     if (hasLocationPermission) {
-      Geolocation.getCurrentPosition(
-        position => {
-          console.log(position);
-
-          setCurrentLocations(prevState => [...prevState, position]);
-        },
-        error => {
-          // See error code charts below.
-          console.log(error.code, error.message);
-        },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-      );
+      await getCurrentLocation()
     }
-  }, [hasLocationPermission]);
+  }, [getCurrentLocation, hasLocationPermission])
+
+  const handleRequestLocationBackground = useCallback(async () => {
+    if (hasLocationPermission) {
+      await requestLocationBackground()
+    }
+  }, [hasLocationPermission, requestLocationBackground])
 
   useEffect(() => {
-    requestPermission().then(handleGetCurrentLocations);
-  }, [handleGetCurrentLocations, requestPermission]);
-
-  useEffect(() => {
-    // Start watching the user's position
-    const watchId = Geolocation.watchPosition(
-      position => {
-        console.log(position);
-        setPositionLocation(position);
-      },
-      error => {
-        console.log(error.code, error.message);
-        setPositionLocation(undefined);
-      },
-      {
-        enableHighAccuracy: true,
-        distanceFilter: 0,
-        accuracy: {
-          android: 'high',
-          ios: 'bestForNavigation',
-        },
-        interval: 2000,
-        fastestInterval: 1000,
-      },
-    );
-
-    return () => {
-      Geolocation.clearWatch(watchId);
-    };
-  }, []);
-
-  useEffect(() => {
+    console.log(positionLocation)
     if (positionLocation) {
-      pushToFirebase({
-        longitude: positionLocation.coords.longitude,
-        latitude: positionLocation.coords.latitude,
-      }).then();
+      pushToFirebase(positionLocation).then()
     }
-  }, [positionLocation, pushToFirebase]);
+  }, [positionLocation, pushToFirebase])
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -153,10 +70,12 @@ function App(): JSX.Element {
           }))}
         />
         <View style={styles.button}>
-          <Button
-            onPress={handleGetCurrentLocations}
-            title={'add Current Position'}
-          />
+          <View style={{paddingTop: 16}}>
+            <Button onPress={handleRequestLocationBackground} title={'request Location Background'} />
+          </View>
+          <View style={{paddingTop: 16}}>
+            <Button onPress={handleGetCurrentLocations} title={'add Current Position'} />
+          </View>
         </View>
         <Text style={styles.text}>
           <Text>{`latitude: ${positionLocation?.coords?.latitude}\n`}</Text>
@@ -169,7 +88,7 @@ function App(): JSX.Element {
         </Text>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -184,6 +103,6 @@ const styles = StyleSheet.create({
     bottom: 24,
     padding: 16,
   },
-});
+})
 
-export default App;
+export default App
