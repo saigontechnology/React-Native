@@ -27,6 +27,11 @@ export const useLocation = () => {
 
   const requestLocationBackground = useCallback(async () => {
     try {
+      const response = await Location.getBackgroundPermissionsAsync()
+      console.log('getBackgroundPermissionsAsync', response)
+      if (response.status === 'granted') {
+        return true
+      }
       const {status} = await Location.requestBackgroundPermissionsAsync()
       console.log('requestLocationBackground status', status)
       if (status === 'granted') {

@@ -5,13 +5,31 @@
  * @format
  */
 
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {Button, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native'
 import {Colors} from 'react-native/Libraries/NewAppScreen'
 
-import {DatabaseRef, GoogleMap, useLocation} from './src'
-import {LocationObject as GeoPosition} from 'expo-location'
+import {
+  DatabaseRef,
+  GoogleMap,
+  LOCATION_TASK_NAME,
+  pushToFirebase,
+  startLocationUpdate,
+  stopLocationUpdate,
+  useLocation,
+} from './src'
+import * as TaskManager from 'expo-task-manager'
 
+TaskManager.defineTask(LOCATION_TASK_NAME, ({data, error}) => {
+  console.log(LOCATION_TASK_NAME, data, error)
+  if (error) {
+    // Error occurred - check `error.message` for more details.
+    return
+  }
+  if (data) {
+    DatabaseRef.set(data).then(() => console.log('TaskManager.defineTask: Data updated.'))
+  }
+})
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark'
   const backgroundStyle = {
@@ -19,15 +37,8 @@ function App(): JSX.Element {
     flex: 1,
   }
 
-  const [currentLocations, setCurrentLocations] = useState<GeoPosition[]>([])
-
   const {hasLocationPermission, positionLocation, getCurrentLocation, requestLocationBackground} =
     useLocation()
-
-  const pushToFirebase = useCallback(
-    (location: any) => DatabaseRef.set(location).then(() => console.log('Data updated.')),
-    [],
-  )
 
   const handleGetCurrentLocations = useCallback(async () => {
     if (hasLocationPermission) {
@@ -42,7 +53,6 @@ function App(): JSX.Element {
   }, [hasLocationPermission, requestLocationBackground])
 
   useEffect(() => {
-    console.log(positionLocation)
     if (positionLocation) {
       pushToFirebase(positionLocation).then()
     }
@@ -57,23 +67,25 @@ function App(): JSX.Element {
       <View style={{flexGrow: 1}}>
         <GoogleMap
           defaultLocation={
-            currentLocations[0]?.coords
+            positionLocation?.coords
               ? {
-                  latitude: currentLocations[0]?.coords?.latitude,
-                  longitude: currentLocations[0]?.coords?.longitude,
+                  latitude: positionLocation?.coords?.latitude,
+                  longitude: positionLocation?.coords?.longitude,
                 }
               : undefined
           }
-          listAssets={currentLocations.map(e => ({
-            latitude: e?.coords?.latitude ?? 0,
-            longitude: e?.coords?.longitude ?? 0,
-          }))}
         />
         <View style={styles.button}>
-          <View style={{paddingTop: 16}}>
+          <View style={styles.containerButton}>
+            <Button onPress={() => stopLocationUpdate().then()} title={'Stop Tracking'} />
+          </View>
+          <View style={styles.containerButton}>
+            <Button onPress={() => startLocationUpdate().then()} title={'Start Tracking'} />
+          </View>
+          <View style={styles.containerButton}>
             <Button onPress={handleRequestLocationBackground} title={'request Location Background'} />
           </View>
-          <View style={{paddingTop: 16}}>
+          <View style={styles.containerButton}>
             <Button onPress={handleGetCurrentLocations} title={'add Current Position'} />
           </View>
         </View>
@@ -97,6 +109,9 @@ const styles = StyleSheet.create({
     color: 'white',
     position: 'absolute',
     backgroundColor: Colors.darker,
+  },
+  containerButton: {
+    paddingTop: 16,
   },
   button: {
     position: 'absolute',

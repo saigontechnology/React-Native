@@ -4482,6 +4482,13 @@ expo-modules-core@1.5.11:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
+expo-task-manager@^11.5.0:
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/expo-task-manager/-/expo-task-manager-11.5.0.tgz#bbf2b36d201acd0d20d1f580a311f5c500bf9bd5"
+  integrity sha512-Fe7d9VqMk5PVZlnPdObeRNH38qr43j2749ZC+hRDz7CS3lNOTYfj1lV/RGFsXNl8oPdmsZ7oiPti5vp2yXN40w==
+  dependencies:
+    unimodules-app-loader "~4.3.0"
+
 expo@^49.0.0:
   version "49.0.11"
   resolved "https://registry.yarnpkg.com/expo/-/expo-49.0.11.tgz#2ad565aaf0e4533c17e5dcbe0e0020da856cbca9"
@@ -9401,6 +9408,11 @@ unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
+
+unimodules-app-loader@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/unimodules-app-loader/-/unimodules-app-loader-4.3.0.tgz#f97f1123a1db44c2d22a2b0f1dd5986e33151340"
+  integrity sha512-hEHB/OX11T0yuAV5yMvfdEy2/M9UPJT8nVpbbhQFEXvZcTuDnNDgJPrtOsOkgD/n3zxM7zvqaeytzz6yKq/6Wg==
 
 unique-filename@^1.1.1:
   version "1.1.1"

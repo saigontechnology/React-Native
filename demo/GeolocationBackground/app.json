@@ -2,13 +2,22 @@
   "name": "GeolocationBackground",
   "displayName": "GeolocationBackground",
   "expo": {
+    "ios": {
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"]
+      }
+    },
     "plugins": [
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isIosBackgroundLocationEnabled":true
         }
       ]
-    ]
+    ],
+    "name": "GeolocationBackground",
+    "slug": "geolocation-background"
   }
 }
