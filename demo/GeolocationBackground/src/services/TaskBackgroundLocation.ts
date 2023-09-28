@@ -13,14 +13,14 @@ export const startLocationUpdate = async () => {
     const {status: backgroundStatus} = await Location.requestBackgroundPermissionsAsync()
     if (backgroundStatus === 'granted') {
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-        accuracy: Location.Accuracy.BestForNavigation,
+        accuracy: Location.Accuracy.Highest,
         activityType: LocationActivityType.Fitness,
         showsBackgroundLocationIndicator: true,
         foregroundService: {
           notificationTitle: 'Background Location',
           notificationBody: 'This is a background location notification',
         },
-        timeInterval: 5000,
+        timeInterval: 15000,
         distanceInterval: 0,
       })
     }
