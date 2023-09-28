@@ -1,3 +1,3 @@
 import database from '@react-native-firebase/database'
 
-export const DatabaseRef = database().ref('/').push()
+export const DatabaseRef = database().ref('/locations').push()

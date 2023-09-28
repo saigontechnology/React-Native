@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useEffect, useState} from 'react'
 import {StyleSheet, View} from 'react-native'
-import MapView, {LatLng, MapPressEvent, Marker, Region} from 'react-native-maps'
+import MapView, {LatLng, MapPressEvent, Marker, Polyline, Region} from 'react-native-maps'
 import {DEFAULT_LOCATION} from '../../constants'
 
 interface IGoogleMapScreen {
@@ -74,10 +74,16 @@ export const GoogleMap = memo<IGoogleMapScreen>(
             title={'Current Position'}
             style={styles.icon}
           />
-          {listAssets.length > 0 &&
-            listAssets?.map((item, index) => (
-              <Marker key={index} coordinate={item} onPress={() => handlePressMarkerExist(item)} />
-            ))}
+          <Polyline coordinates={listAssets} strokeColor={'#000'} strokeWidth={6} />
+
+          {listAssets[listAssets.length - 1] && (
+            <Marker
+              coordinate={listAssets[listAssets.length - 1]}
+              description={'New Position'}
+              title={'New Position'}
+              style={styles.icon}
+            />
+          )}
           {!!regionPress && <Marker coordinate={regionPress} style={styles.icon} />}
         </MapView>
       </View>

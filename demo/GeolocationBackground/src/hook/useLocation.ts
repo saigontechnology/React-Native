@@ -1,9 +1,10 @@
 import {useState, useEffect, useCallback} from 'react'
 import * as Location from 'expo-location'
-import { LOCATION_TASK_NAME } from "../services";
+import {LOCATION_TASK_NAME} from '../services'
 
 export const useLocation = () => {
   const [hasLocationPermission, setHasLocationPermission] = useState<boolean>(false)
+  const [hasBackgroundLocationPermission, setHasBackgroundLocationPermission] = useState<boolean>(false)
   const [positionLocation, setPositionLocation] = useState<Location.LocationObject | undefined>()
 
   const getCurrentLocation = useCallback(async () => {
@@ -31,18 +32,22 @@ export const useLocation = () => {
       const response = await Location.getBackgroundPermissionsAsync()
       console.log('getBackgroundPermissionsAsync', response)
       if (response.status === 'granted') {
+        setHasBackgroundLocationPermission(true)
         return true
       }
       const {status} = await Location.requestBackgroundPermissionsAsync()
       console.log('requestLocationBackground status', status)
       if (status === 'granted') {
+        setHasBackgroundLocationPermission(true)
         return true
       }
     } catch (error) {
       console.log('requestLocationBackground ERROR', error)
     }
+    setHasBackgroundLocationPermission(false)
     return false
   }, [])
+
   const hasTaskBackground = useCallback(async (taskName = LOCATION_TASK_NAME) => {
     const isHas = await Location.hasStartedLocationUpdatesAsync(taskName)
     console.log('hasTaskBackground', isHas)
@@ -53,6 +58,7 @@ export const useLocation = () => {
     hasLocationPermission,
     requestLocationBackground,
     positionLocation,
+    hasBackgroundLocationPermission,
     setPositionLocation,
     getCurrentLocation,
     hasTaskBackground,

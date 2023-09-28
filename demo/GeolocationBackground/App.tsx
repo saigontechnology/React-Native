@@ -5,12 +5,11 @@
  * @format
  */
 
-import React, {useCallback, useEffect, useState} from 'react'
-import {Button, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
+import {AppState, Button, SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native'
 import {Colors} from 'react-native/Libraries/NewAppScreen'
 
 import {
-  DatabaseRef,
   GoogleMap,
   LOCATION_TASK_NAME,
   pushToFirebase,
@@ -19,6 +18,8 @@ import {
   useLocation,
 } from './src'
 import * as TaskManager from 'expo-task-manager'
+import database from '@react-native-firebase/database'
+import {LatLng} from 'react-native-maps'
 
 TaskManager.defineTask(LOCATION_TASK_NAME, ({data, error}) => {
   console.log(LOCATION_TASK_NAME, data, error)
@@ -27,7 +28,14 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({data, error}) => {
     return
   }
   if (data) {
-    DatabaseRef.set(data).then(() => console.log('TaskManager.defineTask: Data updated.'))
+    const {locations} = data as any
+    if (locations && locations[0] && locations[0].timestamp) {
+      const now = new Date(locations[0].timestamp).toISOString()
+      database()
+        .ref(`/tracking/${now.replace('.', '_')}`)
+        .set(locations[0])
+        .then(() => console.log('Data updated.'))
+    }
   }
 })
 function App(): JSX.Element {
@@ -39,6 +47,7 @@ function App(): JSX.Element {
 
   const {
     hasLocationPermission,
+    hasBackgroundLocationPermission,
     positionLocation,
     getCurrentLocation,
     requestLocationBackground,
@@ -51,7 +60,7 @@ function App(): JSX.Element {
     }
   }, [getCurrentLocation, hasLocationPermission])
   const [isHasTaskBackground, setIsHasTaskBackground] = useState<boolean>(false)
-
+  const [list, setList] = useState<LatLng[]>([])
   const handleRequestLocationBackground = useCallback(async () => {
     if (hasLocationPermission) {
       await requestLocationBackground()
@@ -63,9 +72,31 @@ function App(): JSX.Element {
     setIsHasTaskBackground(isHas)
   }, [hasTaskBackground])
 
-  useEffect(() => {
-    handleHasTaskBackground().then()
+  const appStateRef = useRef(AppState.currentState)
+
+  const handleAppState = useCallback(() => {
+    AppState.addEventListener('change', nextAppState => {
+      if (appStateRef.current.match(/inactive|background/) && nextAppState === 'active') {
+        database()
+          .ref('/tracking')
+          .once('value')
+          .then(e => {
+            setList(
+              Object.values(e.val()).map((l: any) => ({
+                latitude: l?.coords?.latitude ?? 0,
+                longitude: l?.coords?.longitude ?? 0,
+              })),
+            )
+          })
+        handleHasTaskBackground().then()
+      }
+      appStateRef.current = nextAppState
+    })
   }, [])
+
+  useEffect(() => {
+    handleAppState()
+  }, [handleAppState])
 
   useEffect(() => {
     if (positionLocation) {
@@ -89,6 +120,7 @@ function App(): JSX.Element {
                 }
               : undefined
           }
+          listAssets={list}
         />
         <View style={styles.button}>
           <View style={styles.containerButton}>
@@ -112,7 +144,11 @@ function App(): JSX.Element {
             />
           </View>
           <View style={styles.containerButton}>
-            <Button onPress={handleRequestLocationBackground} title={'request Location Background'} />
+            <Button
+              disabled={hasBackgroundLocationPermission}
+              onPress={handleRequestLocationBackground}
+              title={'request Location Background'}
+            />
           </View>
           <View style={styles.containerButton}>
             <Button onPress={handleGetCurrentLocations} title={'add Current Position'} />
