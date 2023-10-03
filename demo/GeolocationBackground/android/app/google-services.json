@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "999315240133",
+    "firebase_url": "https://geolocation-background-9796a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "geolocation-background-9796a",
+    "storage_bucket": "geolocation-background-9796a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999315240133:android:396f1363c44578cc842cac",
+        "android_client_info": {
+          "package_name": "com.geolocationbackground"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlSysDCyEIN7gHHaLnBHVoDL3equhdSf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
