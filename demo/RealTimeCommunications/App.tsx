@@ -3,56 +3,97 @@
  * https://github.com/facebook/react-native
  *
  * @format
+ * @flow strict-local
  */
 
-import React from 'react'
-import type {PropsWithChildren} from 'react'
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native'
-
+import React, {useCallback, useMemo, useState} from 'react'
+import {SafeAreaView, StyleSheet, StatusBar, useColorScheme} from 'react-native'
+import {Colors} from 'react-native/Libraries/NewAppScreen'
+import {db, mediaConstraints, peerConstraints, Rooms, WebRTC} from './src'
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen'
+  mediaDevices,
+  MediaStream,
+  RTCIceCandidate,
+  RTCPeerConnection,
+  RTCSessionDescription,
+} from 'react-native-webrtc'
 
-type SectionProps = PropsWithChildren<{
-  title: string
-}>
+export const peerConnection = new RTCPeerConnection(peerConstraints)
 
-function Section({children, title}: SectionProps): JSX.Element {
+const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark'
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+
+  const backgroundStyle = useMemo(
+    () => ({
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+      flex: 1,
+    }),
+    [isDarkMode],
   )
-}
+  const [roomJoinId, setRoomJoinId] = useState('')
+  const [isStream, setIsStream] = useState(false)
+  const [remoteStream, setRemoteStream] = useState<MediaStream | undefined>()
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark'
+  const handleJoinRoom = useCallback((roomId: string) => {
+    setRoomJoinId(roomId)
+    setIsStream(true)
+  }, [])
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  }
+  const handleBackRooms = useCallback(() => {
+    setIsStream(false)
+    setRoomJoinId('')
+  }, [])
+
+  const handleEndCall = useCallback(() => {}, [])
+
+  const handleStartCall = useCallback(async () => {
+    if (roomJoinId === '') {
+      return
+    }
+    setRemoteStream(new MediaStream([]))
+    peerConnection.addEventListener('track', (event: any) => {
+      console.log('track PC', event)
+      event?.streams[0].getTracks().forEach((track: any) => {
+        const remote = remoteStream ?? new MediaStream([])
+        remote?.addTrack(track)
+        setRemoteStream(remote)
+      })
+    })
+
+    const roomRef = db.collection('rooms').doc(roomJoinId)
+    const offerCandidates = roomRef.collection('offerCandidates')
+    const answerCandidates = roomRef.collection('answerCandidates')
+
+    peerConnection.addEventListener('icecandidate', (event: any) => {
+      console.log('icecandidate PC', event)
+      event.candidate && answerCandidates.add(event.candidate.toJSON())
+    })
+    const roomData = (await roomRef.get()).data()
+    // get offer
+    const offer = roomData?.offer
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer))
+
+    // create answer
+    const answerDes = await peerConnection.createAnswer()
+    await peerConnection.setLocalDescription(answerDes)
+
+    const answer = {
+      type: answerDes.type,
+      sdp: answerDes.sdp,
+    }
+
+    await roomRef.update({answer})
+
+    // when send answered success, add candidates to peer connection
+    offerCandidates.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          const candidate = new RTCIceCandidate(change.doc.data())
+          peerConnection.addIceCandidate(candidate)
+        }
+      })
+    })
+  }, [])
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -60,46 +101,26 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this screen and then come back to see
-            your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">Read the docs to discover what to do next:</Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      {isStream ? (
+        <WebRTC
+          remoteStream={remoteStream}
+          onCall={handleStartCall}
+          onEndCall={handleEndCall}
+          roomId={roomJoinId}
+          onBack={handleBackRooms}
+          style={styles.containerWebRTC}
+        />
+      ) : (
+        <Rooms onJoinRoom={handleJoinRoom} />
+      )}
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  containerWebRTC: {
+    flex: 1,
+    backgroundColor: 'rgba(50,10,3,0.5)',
   },
 })
 
