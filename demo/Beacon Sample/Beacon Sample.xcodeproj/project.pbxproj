@@ -1,0 +1,612 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		160B293F2A8A164F00C8623D /* BeaconWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B293E2A8A164F00C8623D /* BeaconWatchApp.swift */; };
+		160B29412A8A164F00C8623D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B29402A8A164F00C8623D /* ContentView.swift */; };
+		160B29432A8A165000C8623D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 160B29422A8A165000C8623D /* Assets.xcassets */; };
+		160B29462A8A165000C8623D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 160B29452A8A165000C8623D /* Preview Assets.xcassets */; };
+		160B29492A8A165000C8623D /* BeaconWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 160B293C2A8A164F00C8623D /* BeaconWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		160B297D2A8A290700C8623D /* WatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B297C2A8A290700C8623D /* WatchConnector.swift */; };
+		160B297F2A8A292D00C8623D /* PhoneConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160B297E2A8A292D00C8623D /* PhoneConnector.swift */; };
+		7A33F664226D3B670030E497 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A33F663226D3B670030E497 /* CoreLocation.framework */; };
+		7A33F666226D3B6C0030E497 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A33F665226D3B6C0030E497 /* CoreBluetooth.framework */; };
+		7A36939A2280F1A300CDE534 /* ConfigureBeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3693992280F1A300CDE534 /* ConfigureBeaconViewController.swift */; };
+		7AAC02FB22683AC200726A68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAC02FA22683AC200726A68 /* AppDelegate.swift */; };
+		7AAC02FD22683AC200726A68 /* RangeBeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAC02FC22683AC200726A68 /* RangeBeaconViewController.swift */; };
+		7AAC030022683AC200726A68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AAC02FE22683AC200726A68 /* Main.storyboard */; };
+		7AAC030222683AC300726A68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AAC030122683AC300726A68 /* Assets.xcassets */; };
+		7AAC030522683AC300726A68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AAC030322683AC300726A68 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		160B29472A8A165000C8623D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7AAC02EF22683AC200726A68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 160B293B2A8A164F00C8623D;
+			remoteInfo = "BeaconWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		160B294D2A8A165100C8623D /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				160B29492A8A165000C8623D /* BeaconWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		160B29792A8A22D600C8623D /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		05447D7005447C6000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		160B293C2A8A164F00C8623D /* BeaconWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BeaconWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		160B293E2A8A164F00C8623D /* BeaconWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconWatchApp.swift; sourceTree = "<group>"; };
+		160B29402A8A164F00C8623D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		160B29422A8A165000C8623D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		160B29452A8A165000C8623D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		160B297C2A8A290700C8623D /* WatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnector.swift; sourceTree = "<group>"; };
+		160B297E2A8A292D00C8623D /* PhoneConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneConnector.swift; sourceTree = "<group>"; };
+		5B7B3AB6DB3A78BF67E1F551 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		6A5AB8F9E807BFE7CFA575F1 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = ../Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		7A33F663226D3B670030E497 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7A33F665226D3B6C0030E497 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		7A3693992280F1A300CDE534 /* ConfigureBeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureBeaconViewController.swift; sourceTree = "<group>"; };
+		7AAC02F722683AC200726A68 /* Beacon Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Beacon Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AAC02FA22683AC200726A68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7AAC02FC22683AC200726A68 /* RangeBeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeBeaconViewController.swift; sourceTree = "<group>"; };
+		7AAC02FF22683AC200726A68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7AAC030122683AC300726A68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7AAC030422683AC300726A68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7AAC030622683AC300726A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		160B29392A8A164F00C8623D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AAC02F422683AC200726A68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A33F666226D3B6C0030E497 /* CoreBluetooth.framework in Frameworks */,
+				7A33F664226D3B670030E497 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		160B293D2A8A164F00C8623D /* BeaconWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				160B293E2A8A164F00C8623D /* BeaconWatchApp.swift */,
+				160B29402A8A164F00C8623D /* ContentView.swift */,
+				160B29422A8A165000C8623D /* Assets.xcassets */,
+				160B29442A8A165000C8623D /* Preview Content */,
+				160B297E2A8A292D00C8623D /* PhoneConnector.swift */,
+			);
+			path = "BeaconWatch Watch App";
+			sourceTree = "<group>";
+		};
+		160B29442A8A165000C8623D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				160B29452A8A165000C8623D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7AAC02EE22683AC200726A68 = {
+			isa = PBXGroup;
+			children = (
+				05447D7005447C6000000001 /* README.md */,
+				7AAC02F922683AC200726A68 /* Beacon Sample */,
+				160B293D2A8A164F00C8623D /* BeaconWatch Watch App */,
+				7AAC02F822683AC200726A68 /* Products */,
+				7AD3818D22683FFE00C79DC4 /* Frameworks */,
+				90F24065AE7A88811C8050D6 /* Configuration */,
+				A7786F9F3A9CBAAA5DBAC628 /* LICENSE */,
+			);
+			sourceTree = "<group>";
+		};
+		7AAC02F822683AC200726A68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7AAC02F722683AC200726A68 /* Beacon Sample.app */,
+				160B293C2A8A164F00C8623D /* BeaconWatch Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7AAC02F922683AC200726A68 /* Beacon Sample */ = {
+			isa = PBXGroup;
+			children = (
+				7AD381912268441800C79DC4 /* Supporting FIles */,
+				7AAC02FA22683AC200726A68 /* AppDelegate.swift */,
+				7AAC02FC22683AC200726A68 /* RangeBeaconViewController.swift */,
+				7A3693992280F1A300CDE534 /* ConfigureBeaconViewController.swift */,
+				160B297C2A8A290700C8623D /* WatchConnector.swift */,
+			);
+			path = "Beacon Sample";
+			sourceTree = "<group>";
+		};
+		7AD3818D22683FFE00C79DC4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A33F665226D3B6C0030E497 /* CoreBluetooth.framework */,
+				7A33F663226D3B670030E497 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7AD381912268441800C79DC4 /* Supporting FIles */ = {
+			isa = PBXGroup;
+			children = (
+				7AAC02FE22683AC200726A68 /* Main.storyboard */,
+				7AAC030122683AC300726A68 /* Assets.xcassets */,
+				7AAC030322683AC300726A68 /* LaunchScreen.storyboard */,
+				7AAC030622683AC300726A68 /* Info.plist */,
+			);
+			path = "Supporting FIles";
+			sourceTree = "<group>";
+		};
+		90F24065AE7A88811C8050D6 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				6A5AB8F9E807BFE7CFA575F1 /* SampleCode.xcconfig */,
+			);
+			name = Configuration;
+			sourceTree = "<group>";
+		};
+		A7786F9F3A9CBAAA5DBAC628 /* LICENSE */ = {
+			isa = PBXGroup;
+			children = (
+				5B7B3AB6DB3A78BF67E1F551 /* LICENSE.txt */,
+			);
+			name = LICENSE;
+			path = ../LICENSE;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		160B293B2A8A164F00C8623D /* BeaconWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 160B294A2A8A165100C8623D /* Build configuration list for PBXNativeTarget "BeaconWatch Watch App" */;
+			buildPhases = (
+				160B29382A8A164F00C8623D /* Sources */,
+				160B29392A8A164F00C8623D /* Frameworks */,
+				160B293A2A8A164F00C8623D /* Resources */,
+				160B29792A8A22D600C8623D /* Embed ExtensionKit Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BeaconWatch Watch App";
+			productName = "BeaconWatch Watch App";
+			productReference = 160B293C2A8A164F00C8623D /* BeaconWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7AAC02F622683AC200726A68 /* Beacon Sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7AAC031F22683AC400726A68 /* Build configuration list for PBXNativeTarget "Beacon Sample" */;
+			buildPhases = (
+				7AAC02F322683AC200726A68 /* Sources */,
+				7AAC02F422683AC200726A68 /* Frameworks */,
+				7AAC02F522683AC200726A68 /* Resources */,
+				160B294D2A8A165100C8623D /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				160B29482A8A165000C8623D /* PBXTargetDependency */,
+			);
+			name = "Beacon Sample";
+			productName = iBeacon;
+			productReference = 7AAC02F722683AC200726A68 /* Beacon Sample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7AAC02EF22683AC200726A68 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Latest;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1100;
+				ORGANIZATIONNAME = Apple;
+				TargetAttributes = {
+					160B293B2A8A164F00C8623D = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					7AAC02F622683AC200726A68 = {
+						CreatedOnToolsVersion = 11.0;
+					};
+				};
+			};
+			buildConfigurationList = 7AAC02F222683AC200726A68 /* Build configuration list for PBXProject "Beacon Sample" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7AAC02EE22683AC200726A68;
+			productRefGroup = 7AAC02F822683AC200726A68 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7AAC02F622683AC200726A68 /* Beacon Sample */,
+				160B293B2A8A164F00C8623D /* BeaconWatch Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		160B293A2A8A164F00C8623D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				160B29462A8A165000C8623D /* Preview Assets.xcassets in Resources */,
+				160B29432A8A165000C8623D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AAC02F522683AC200726A68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7AAC030522683AC300726A68 /* LaunchScreen.storyboard in Resources */,
+				7AAC030222683AC300726A68 /* Assets.xcassets in Resources */,
+				7AAC030022683AC200726A68 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		160B29382A8A164F00C8623D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				160B29412A8A164F00C8623D /* ContentView.swift in Sources */,
+				160B293F2A8A164F00C8623D /* BeaconWatchApp.swift in Sources */,
+				160B297F2A8A292D00C8623D /* PhoneConnector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7AAC02F322683AC200726A68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7AAC02FD22683AC200726A68 /* RangeBeaconViewController.swift in Sources */,
+				160B297D2A8A290700C8623D /* WatchConnector.swift in Sources */,
+				7AAC02FB22683AC200726A68 /* AppDelegate.swift in Sources */,
+				7A36939A2280F1A300CDE534 /* ConfigureBeaconViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		160B29482A8A165000C8623D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 160B293B2A8A164F00C8623D /* BeaconWatch Watch App */;
+			targetProxy = 160B29472A8A165000C8623D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7AAC02FE22683AC200726A68 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7AAC02FF22683AC200726A68 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7AAC030322683AC300726A68 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7AAC030422683AC300726A68 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		160B294B2A8A165100C8623D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BeaconWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = C3J3JQQSL5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BeaconWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.example.apple-samplecode.beacon";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.beacon.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		160B294C2A8A165100C8623D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BeaconWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = C3J3JQQSL5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BeaconWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.example.apple-samplecode.beacon";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.beacon.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		7AAC031D22683AC400726A68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A5AB8F9E807BFE7CFA575F1 /* SampleCode.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7AAC031E22683AC400726A68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A5AB8F9E807BFE7CFA575F1 /* SampleCode.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7AAC032022683AC400726A68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A5AB8F9E807BFE7CFA575F1 /* SampleCode.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C3J3JQQSL5;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/$(PROJECT_NAME)/Supporting FIles/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.beacon";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7AAC032122683AC400726A68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A5AB8F9E807BFE7CFA575F1 /* SampleCode.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C3J3JQQSL5;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/$(PROJECT_NAME)/Supporting FIles/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.beacon";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		160B294A2A8A165100C8623D /* Build configuration list for PBXNativeTarget "BeaconWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				160B294B2A8A165100C8623D /* Debug */,
+				160B294C2A8A165100C8623D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7AAC02F222683AC200726A68 /* Build configuration list for PBXProject "Beacon Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AAC031D22683AC400726A68 /* Debug */,
+				7AAC031E22683AC400726A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7AAC031F22683AC400726A68 /* Build configuration list for PBXNativeTarget "Beacon Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AAC032022683AC400726A68 /* Debug */,
+				7AAC032122683AC400726A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7AAC02EF22683AC200726A68 /* Project object */;
+}
