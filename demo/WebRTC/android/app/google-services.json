@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "726003335111",
+    "project_id": "react-native-webrtc-4c1e6",
+    "storage_bucket": "react-native-webrtc-4c1e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726003335111:android:9e831d03a987bb04df63e2",
+        "android_client_info": {
+          "package_name": "com.saigontechnology.webrtc.development"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfoM5hHY2HIxVwVCQ_b4qvWfb2L0NnGnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
