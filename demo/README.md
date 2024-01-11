@@ -15,32 +15,75 @@ Welcome to the React Native Multiples Demo/POC Showcase! In this repository, we'
 
 Delve into iBeacon technology with our iOS iBeacon App and Watch Demo. This comprehensive demo showcases the integration of iBeacons using the Core Location framework, creating a dynamic and engaging experience on both iPhone and Apple Watch. Whether you're a developer exploring iBeacon capabilities or looking to extend beacon functionality to wearables, this demo provides an immersive cross-device experience.
 
+**Features**
+- Beacon Detection on iPhone
+- Watch App Integration
+- Proximity-based Triggers
+
 ### ⭐ [Beacon Android](BeaconsAndroidDemo)
 Explore the world of proximity-based interactions with our React Native Beacon Demo. This demo showcases allows your application to interact with Bluetooth beacons seamlessly. Whether you're building location-aware apps, personalized experiences, or implementing indoor navigation, this demo provides a solid foundation for incorporating beacon technology into your React Native projects.
+
+**Features**
+- Beacon Dectection
+- Proximity-based Triggers
+- Background Beacon Monitoring
 
 ### ⭐ [Geolocation Background](GeolocationBackground)
 
 Explore advanced geolocation capabilities with our React Native Geolocation Background Demo. This demo showcases how to harness these technologies to enable continuous location tracking, even when your application is running in the background.
 
+**Features**
+- Continuous Location Tracking
+- Background Geofencing
+
+
 ### ⭐ [Maps](Maps)
 
-This is a straightforward cross-platform mobile application built with React Native, compatible with both iOS and Android devices to showcase maps. We can choose between Apple Map or Open Street Map services.
+Discover the world of interactive maps with our React Native Map Demo, showcasing the integration of Apple maps and OpenStreetMap service. Whether you're building a location-based app, exploring map functionalities in React Native, or integrating open-source map services, this demo provides a solid foundation for creating immersive and feature-rich map experiences.
+
+**Features**
+- Interactive Maps
+- Custom Map Markers and Overlays
+- Zoom on Map Markers
+
 
 ### ⭐ [MatterJS](MatterJSDemo)
 
 Welcome to the Roller Ball Game Demo built with React Native, React Game Engine, and Matter.js! This engaging demo showcases the integration of these powerful technologies to create a fun and interactive gaming experience.
 
+**Features**
+- Dynamic Ball Movement
+- Score Tracking based on time
+- Obstacle Avoidance
+
 ### ⭐ [WebRTC](WebRTC)
 
 Explore the world of real-time communication with our React Native Group Video Call Demo, featuring the powerful of WebRTC integration and Firebase Firestore for seamless data synchronization. Whether you're a developer diving into video communication or exploring the capabilities of React Native, this demo provides an insightful glimpse into building a robust group video calling application.
+
+**Features**
+- Real-Time Audio and Video Streaming
+- Dynamic User Management
+- Group Video Calls
+
 
 ### ⭐ [Health Kit](healthkit_demo)
 
 Embark on a health and wellness journey with our React Native Health Kit Demo, showcasing the integration of health-related data. Whether you're building fitness apps, health trackers, or exploring ways to incorporate health data into your React Native projects, this demo provides valuable insights into leveraging health data from devices like Apple HealthKit.
 
+**Features**
+- Health Data Retrieval
+- Real-Time Monitoring
+- Customizable Health Metrics
+- Graphical Data Visualization
+
 ### ⭐ [Google Fit](rn_google_fit)
 
 Step into the world of fitness tracking with our React Native Step Tracker Demo, showcasing the integration of step count data and visualizing the results. Whether you're building a health and wellness app, fitness tracker, or exploring ways to incorporate step data into your React Native projects, this demo provides a hands-on experience with popular fitness APIs.
+
+**Features**
+- Step Count Retrieval
+- Dynamic Chart Visualization
+- Real-Time Updates
 
 ## Contributors ✨
 
