@@ -14,7 +14,7 @@ function* userLoginSaga(): IterableIterator<AnyAction> {
     if (e instanceof Error) {
       Toast.error(e.message)
     }
-    yield put(appActions.setAppStack(RouteKey.AuthStack))
+    yield put(appActions.setAppStack(RouteKey.HomeStack))
   } finally {
     yield put(appActions.setShowGlobalIndicator(false))
   }

@@ -9,11 +9,12 @@ import {AuthNavigator, HomeNavigator} from './StackNavigation'
 
 function AppNavigation(): React.ReactElement {
   const appState: string = useSelector(getAppStackState)
+  console.log('🚀 ~ AppNavigation ~ appState:', appState)
 
   function renderStack(): React.ReactNode {
     switch (appState) {
-      case RouteKey.AuthStack:
-        return <AuthNavigator />
+      // case RouteKey.AuthStack:
+      //   return <AuthNavigator />
       case RouteKey.HomeStack:
         return <HomeNavigator />
       default:
