@@ -10,11 +10,11 @@
 
 ### Speech to text
 
-https://github.com/saigontechnology/React-Native/assets/117077260/998d2e44-9f2f-4dca-970d-e3d17c1d2d9f
+https://github.com/saigontechnology/React-Native/assets/117077260/478f1d7f-067f-4902-a17c-0c8b849397ac
 
 ### Text to speech
 
-https://github.com/saigontechnology/React-Native/assets/117077260/a93334e7-ec0f-4187-82e3-cd174c4f9cbd
+https://github.com/saigontechnology/React-Native/assets/117077260/ce8ee179-af98-4f30-af7c-42cc03fb06fe
 
 ## 🕹️ Features
 
