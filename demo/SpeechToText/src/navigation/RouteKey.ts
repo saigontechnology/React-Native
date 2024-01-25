@@ -12,6 +12,9 @@ export enum RouteKey {
 
   /** Tab */
   MainTab = 'MainTab',
+
+  SpeechToText = 'SpeechToText',
+  TextToSpeech = 'TextToSpeech',
 }
 
 export default RouteKey
