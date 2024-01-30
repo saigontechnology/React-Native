@@ -92,6 +92,18 @@ React-native-maps library is actually able to load a structured map format but i
 **Features**
 - Load kml file to maps
 
+### ⭐ [Speech To Text / Text To Speech](SpeechToText)
+
+This repository provides a simple yet powerful demonstration of Speech-to-Text (STT) and Text-to-Speech (TTS) functionalities using cutting-edge technologies. These demos showcase the capabilities of converting spoken language into written text and vice versa, offering a glimpse into the world of automatic speech recognition and synthesis.
+
+**Features**
+- Speech Recognition
+- Real-Time Transcription
+- Multi-Language Support
+- User-Friendly Interface
+- Natural-sounding voices
+- Customization options
+
 ## Contributors ✨
 
 <table>
