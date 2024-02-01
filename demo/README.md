@@ -47,6 +47,16 @@ Discover the world of interactive maps with our React Native Map Demo, showcasin
 - Zoom on Map Markers
 
 
+### ⭐ [MapAndLocation](MapAndLocation)
+
+Experience the power of dynamic mapping on your mobile device with our demo. Explore the world around you with ease as you view your current location displayed accurately on the map. With simulated location changes, you can witness the seamless transition as you move from one point to another, drawing zones or lines directly onto the map. Whether you're marking out boundaries or planning routes, the intuitive interface makes it simple and intuitive, showcases the ability to generate routes between two predefined locations, providing you with step-by-step guidance to your destination.
+
+**Features**
+- Showing Map and current Location on Map, Simulate the behavior of changing location
+- Drawing Zone or Line on the Map
+- Showing route between 2 locations (predefined locations)
+
+
 ### ⭐ [MatterJS](MatterJSDemo)
 
 Welcome to the Roller Ball Game Demo built with React Native, React Game Engine, and Matter.js! This engaging demo showcases the integration of these powerful technologies to create a fun and interactive gaming experience.
