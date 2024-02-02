@@ -96,7 +96,7 @@ React-native-maps library is actually able to load a structured map format but i
 
 This repository provides a simple yet powerful demonstration of Speech-to-Text (STT) and Text-to-Speech (TTS) functionalities using cutting-edge technologies. These demos showcase the capabilities of converting spoken language into written text and vice versa, offering a glimpse into the world of automatic speech recognition and synthesis.
 
-### ⭐ [Music App / M4U](M4U)
+### ⭐ [Music App / M4U](MusicApp)
 
 This is a music app that allows users to listen to their favorite songs, create playlists, and discover new music.
 **Features**
