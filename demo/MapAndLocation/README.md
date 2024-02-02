@@ -4,7 +4,7 @@ This is a straightforward cross-platform mobile application built with React Nat
 
 **Video Demo**
 
-https://drive.google.com/file/d/1VwhQiRi3HygJctODty6-lHCFOK1YhZTo/view
+https://github.com/saigontechnology/React-Native/assets/114563576/76a0ad5e-17ed-447b-9244-bbd8b8a522cc
 
 ## 📡 Features:
 
