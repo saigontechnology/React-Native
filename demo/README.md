@@ -100,17 +100,9 @@ This repository provides a simple yet powerful demonstration of Speech-to-Text (
 
 This is a music app that allows users to listen to their favorite songs, create playlists, and discover new music.
 **Features**
-- Show a list of songs
-- Play song in the background
-- Play songs and control playback
-
-**Features**
-- Speech Recognition
-- Real-Time Transcription
-- Multi-Language Support
+- Music Streaming
 - User-Friendly Interface
-- Natural-sounding voices
-- Customization options
+- Offline Listening
 
 ## Contributors ✨
 
