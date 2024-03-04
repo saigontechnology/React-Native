@@ -43,8 +43,11 @@ export const HomeScreen: React.FC<Props> = () => {
   const [totalParticipants, setTotalParticipants] = useState(0)
 
   const {
+    // Boolean value if permission is granted
     cameraPermissionGranted,
     microphonePermissionGranted,
+
+    // request permission methods
     requestMicrophonePermission,
     requestCameraPermission,
   } = usePermission()
@@ -53,28 +56,28 @@ export const HomeScreen: React.FC<Props> = () => {
     camera: cameraPermissionGranted,
   })
 
-  const createUser = useCallback(async () => {
-    const userRef = database.collection(FirestoreCollections.users).doc()
-    await userRef.set({
-      name: userName,
-    })
-    return userName
-  }, [userName])
-
   const listenPeerConnections = useCallback(
     async (
       roomRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>,
       createdUserName: string,
     ) => {
       roomRef.collection(FirestoreCollections.connections).onSnapshot(connectionSnapshot => {
+        // looping changes from collection Connections
         connectionSnapshot.docChanges().forEach(async change => {
           if (change.type === 'added') {
             const data = change.doc.data()
+
+            // find connections that request answer from current user
             if (data.responder === createdUserName) {
+              // get requester's location from collection Participants
               const requestParticipantRef = roomRef
                 .collection(FirestoreCollections.participants)
                 .doc(data.requester)
+
+              // get requester's data from requester's location
               const requestParticipantData = (await requestParticipantRef.get()).data()
+
+              // store requester's control status in remoteMedias
               setRemoteMedias(prev => ({
                 ...prev,
                 [data.requester]: {
@@ -82,27 +85,28 @@ export const HomeScreen: React.FC<Props> = () => {
                   camera: requestParticipantData?.camera,
                 },
               }))
+
+              // init requester's remoteStream to add track data from Peer Connection later
               setRemoteStreams(prev => ({
                 ...prev,
                 [data.requester]: new MediaStream([]),
               }))
 
-              /** create answer */
+              // init PeerConnection
               const peerConnection = new RTCPeerConnection(peerConstraints)
-              const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
-              const connectionRef = connectionsCollection.doc(`${data.requester}-${createdUserName}`)
-              const answerCandidatesCollection = connectionRef.collection(
-                FirestoreCollections.answerCandidates,
-              )
 
+              // add current user's stream to created PC (Peer Connection)
               localStream?.getTracks().forEach(track => {
                 peerConnection.addTrack(track, localStream)
               })
 
+              // get requester's MediaStream from PC
               peerConnection.addEventListener('track', event => {
                 event.streams[0].getTracks().forEach(track => {
                   const remoteStream = remoteStreams[data.requester] ?? new MediaStream([])
                   remoteStream.addTrack(track)
+
+                  // and store in remoteStreams as it's initialized before
                   setRemoteStreams(prev => ({
                     ...prev,
                     [data.requester]: remoteStream,
@@ -110,26 +114,41 @@ export const HomeScreen: React.FC<Props> = () => {
                 })
               })
 
-              // collect ICE candidates to add in collection
-              peerConnection.addEventListener('icecandidate', event => {
-                if (event.candidate) {
-                  answerCandidatesCollection.add(event.candidate.toJSON())
-                }
-              })
+              // get location of connection between requester and current user
+              const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
+              const connectionRef = connectionsCollection.doc(`${data.requester}-${createdUserName}`)
 
-              // collect offer & create answer
+              // get data from requester-user's connection
               const connectionData = (await connectionRef.get()).data()
+
+              // receive offer SDP and set as remoteDescription
               const offer = connectionData?.offer
               await peerConnection.setRemoteDescription(offer)
+
+              // create answer SDP and set as localDescription
               const answerDescription = await peerConnection.createAnswer()
               await peerConnection.setLocalDescription(answerDescription)
+
+              // send answer to Firestore
               const answer = {
                 type: answerDescription.type,
                 sdp: answerDescription.sdp,
               }
               await connectionRef.update({answer})
 
-              // listen for remote ICE candidates
+              // create answerCandidates collection
+              const answerCandidatesCollection = connectionRef.collection(
+                FirestoreCollections.answerCandidates,
+              )
+
+              // add current user's ICE Candidates to answerCandidates collection
+              peerConnection.addEventListener('icecandidate', event => {
+                if (event.candidate) {
+                  answerCandidatesCollection.add(event.candidate.toJSON())
+                }
+              })
+
+              // collect Offer's ICE candidates from offerCandidates collection and add in PC
               connectionRef
                 .collection(FirestoreCollections.offerCandidates)
                 .onSnapshot(iceCandidateSnapshot => {
@@ -140,6 +159,7 @@ export const HomeScreen: React.FC<Props> = () => {
                   })
                 })
 
+              // store peer collections
               setPeerConnections(prev => ({
                 ...prev,
                 [data.requester]: peerConnection,
@@ -157,10 +177,12 @@ export const HomeScreen: React.FC<Props> = () => {
       roomRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>,
       createdUserName: string,
     ) => {
+      // loop all participants data
       const participants = await roomRef.collection(FirestoreCollections.participants).get()
       participants.forEach(async participantSnapshot => {
         const participant = participantSnapshot.data()
 
+        // store participant's control status in remoteMedias
         setRemoteMedias(prev => ({
           ...prev,
           [participant.name]: {
@@ -168,27 +190,22 @@ export const HomeScreen: React.FC<Props> = () => {
             camera: participant?.camera,
           },
         }))
-        setRemoteStreams(prev => ({
-          ...prev,
-          [participant.name]: new MediaStream([]),
-        }))
 
-        // create ICECandidate for store answer and offer between 2 participants
-        const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
-        const connectionRef = connectionsCollection.doc(`${createdUserName}-${participant.name}`)
-
-        /** create offer */
+        // init peer connection
         const peerConnection = new RTCPeerConnection(peerConstraints)
 
-        // add local stream to peer connection of every participant
+        // add current user's stream to created PC (Peer Connection)
         localStream?.getTracks().forEach(track => {
           peerConnection.addTrack(track, localStream)
         })
 
+        // get participant's MediaStream from PC
         peerConnection.addEventListener('track', event => {
           event.streams[0].getTracks().forEach(track => {
             const remoteStream = remoteStreams[participant.name] ?? new MediaStream([])
             remoteStream.addTrack(track)
+
+            // and store in remoteStreams as it's initialized before
             setRemoteStreams(prev => ({
               ...prev,
               [participant.name]: remoteStream,
@@ -196,17 +213,21 @@ export const HomeScreen: React.FC<Props> = () => {
           })
         })
 
-        // Listen for local ICE candidates on the local RTCPeerConnection
-        const offerCandidatesCollection = connectionRef.collection(FirestoreCollections.offerCandidates)
-        peerConnection.addEventListener('icecandidate', event => {
-          if (event.candidate) {
-            offerCandidatesCollection.add(event.candidate.toJSON())
-          }
-        })
+        // init participant's remoteStream to add track data from Peer Connection later
+        setRemoteStreams(prev => ({
+          ...prev,
+          [participant.name]: new MediaStream([]),
+        }))
 
-        // create offer and set local description
+        // create connection between current user and participant
+        const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
+        const connectionRef = connectionsCollection.doc(`${createdUserName}-${participant.name}`)
+
+        // create offer SDP and set localDescription
         const offerDescription = await peerConnection.createOffer(sessionConstraints)
         peerConnection.setLocalDescription(offerDescription)
+
+        // send offer to Firestore
         const offer = {
           type: offerDescription.type,
           sdp: offerDescription.sdp,
@@ -217,25 +238,38 @@ export const HomeScreen: React.FC<Props> = () => {
           responder: participant.name,
         })
 
-        /** listen to answer */
-
-        // set answer as remote description
+        // add listener to coming answers
         connectionRef.onSnapshot(async connectionSnapshot => {
           const data = connectionSnapshot.data()
+          // if PC does not have any remoteDescription and answer existed
           if (!peerConnection.remoteDescription && data?.answer) {
+            // get answer and set as remoteDescription
             const answerDescription = new RTCSessionDescription(data.answer)
             await peerConnection.setRemoteDescription(answerDescription)
           }
         })
 
-        // listen for remote ICE candidates
+        // create offerCandidates collection
+        const offerCandidatesCollection = connectionRef.collection(FirestoreCollections.offerCandidates)
+
+        // add current user's ICE Candidates to offerCandidates collection
+        peerConnection.addEventListener('icecandidate', event => {
+          if (event.candidate) {
+            offerCandidatesCollection.add(event.candidate.toJSON())
+          }
+        })
+
+        // add listener to answerCandidates collection to participant's ICE Candidates
         connectionRef.collection(FirestoreCollections.answerCandidates).onSnapshot(iceCandidatesSnapshot => {
           iceCandidatesSnapshot.docChanges().forEach(async change => {
             if (change.type === 'added') {
+              // get Answer's ICE candidates and add in PC
               await peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data()))
             }
           })
         })
+
+        // store peer connections
         setPeerConnections(prev => ({
           ...prev,
           [participant.name]: peerConnection,
@@ -246,33 +280,42 @@ export const HomeScreen: React.FC<Props> = () => {
   )
 
   const createRoom = useCallback(async () => {
-    const createdUserName = await createUser()
-    const roomRef = database.collection(FirestoreCollections.rooms).doc(createdUserName)
+    // create room with current userName and set createdDate as current datetime
+    const roomRef = database.collection(FirestoreCollections.rooms).doc(userName)
     await roomRef.set({createdDate: new Date()})
-    roomRef.collection(FirestoreCollections.participants).doc(createdUserName).set({
+
+    // create participants collection to room "userName"
+    roomRef.collection(FirestoreCollections.participants).doc(userName).set({
+      // control mic and camera status of current user's device
       mic: localMediaControl?.mic,
       camera: localMediaControl?.camera,
-      name: createdUserName,
+      name: userName,
     })
-    setRoomId(roomRef.id)
-    setScreen(Screen.InRoomCall)
-    await listenPeerConnections(roomRef, createdUserName)
-  }, [createUser, listenPeerConnections, localMediaControl?.camera, localMediaControl?.mic])
+    setRoomId(roomRef.id) // store new created roomId
+    setScreen(Screen.InRoomCall) // navigate to InRoomCall screen
+
+    // add listener to new peer connection in Firestore
+    await listenPeerConnections(roomRef, userName)
+  }, [userName, listenPeerConnections, localMediaControl?.camera, localMediaControl?.mic])
 
   const joinRoom = useCallback(
     async (roomRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>) => {
-      const createdUserName = await createUser()
-      await registerPeerConnection(roomRef, createdUserName)
-      await roomRef.collection(FirestoreCollections.participants).doc(createdUserName).set({
+      // register new PeerConnection to FireStore
+      await registerPeerConnection(roomRef, userName)
+
+      // add user data to participants collection
+      await roomRef.collection(FirestoreCollections.participants).doc(userName).set({
         mic: localMediaControl?.mic,
         camera: localMediaControl?.camera,
-        name: createdUserName,
+        name: userName,
       })
-      await listenPeerConnections(roomRef, createdUserName)
-      setScreen(Screen.InRoomCall)
+
+      // also listen to new coming PeerConnections
+      await listenPeerConnections(roomRef, userName)
+      setScreen(Screen.InRoomCall) // navigate to InRoomCall screen
     },
     [
-      createUser,
+      userName,
       registerPeerConnection,
       localMediaControl?.mic,
       localMediaControl?.camera,
@@ -281,6 +324,7 @@ export const HomeScreen: React.FC<Props> = () => {
   )
 
   const checkRoomExist = useCallback(() => {
+    // get room data based on the entered room id
     const roomRef = database.collection(FirestoreCollections.rooms).doc(roomId)
 
     roomRef.get().then(docSnapshot => {
@@ -289,33 +333,49 @@ export const HomeScreen: React.FC<Props> = () => {
         setRoomId('')
         return
       } else {
-        joinRoom(roomRef)
+        joinRoom(roomRef) // process to join room if room is existed
       }
     })
   }, [joinRoom, roomId])
 
   const openMediaDevices = useCallback(async (audio: boolean, video: boolean) => {
+    // get media devices stream from webRTC API
     const mediaStream = await mediaDevices.getUserMedia({
       audio,
       video,
     })
+
+    // init peer connection to show user's track locally
     const peerConnection = new RTCPeerConnection(peerConstraints)
+
+    // add track from created mediaStream to peer connection
     mediaStream.getTracks().forEach(track => peerConnection.addTrack(track, mediaStream))
+
+    // set mediaStream in localStream
     setLocalStream(mediaStream)
   }, [])
 
   const toggleMicrophone = useCallback(() => {
+    // check if permission is granted, if not call request permission
     if (microphonePermissionGranted) {
+      // update state in local mediaControl
       setLocalMediaControl(prev => ({
         ...prev,
         mic: !prev.mic,
       }))
+
+      // update mic value of localStream
       localStream?.getAudioTracks().forEach(track => {
         localMediaControl?.mic ? (track.enabled = false) : (track.enabled = true)
       })
       if (roomId) {
+        // get location of current room that user's in
         const roomRef = database.collection(FirestoreCollections.rooms).doc(roomId)
+
+        // get location of user's participant data
         const participantRef = roomRef.collection(FirestoreCollections.participants).doc(userName)
+
+        // update mic value in Firestore
         participantRef.update({
           mic: !localMediaControl?.mic,
         })
@@ -333,17 +393,26 @@ export const HomeScreen: React.FC<Props> = () => {
   ])
 
   const toggleCamera = useCallback(() => {
+    // check if permission is granted, if not call request permission
     if (cameraPermissionGranted) {
+      // update state in local mediaControl
       setLocalMediaControl(prev => ({
         ...prev,
         camera: !prev.camera,
       }))
+
+      // update camera value of localStream
       localStream?.getVideoTracks().forEach(track => {
         localMediaControl?.camera ? (track.enabled = false) : (track.enabled = true)
       })
       if (roomId) {
+        // get location of current room that user's in
         const roomRef = database.collection(FirestoreCollections.rooms).doc(roomId)
+
+        // get location of user's participant data
         const participantRef = roomRef.collection(FirestoreCollections.participants).doc(userName)
+
+        // update camera value in Firestore
         participantRef.update({
           camera: !localMediaControl?.camera,
         })
@@ -361,66 +430,89 @@ export const HomeScreen: React.FC<Props> = () => {
   ])
 
   const hangUp = useCallback(async () => {
+    // stop local stream
     localStream?.getTracks()?.forEach(track => {
       track.stop()
     })
 
+    // stop remote streams
     if (remoteStreams) {
       Object.keys(remoteStreams).forEach(remoteStreamKey => {
         remoteStreams[remoteStreamKey].getTracks().forEach(track => track.stop())
       })
     }
 
+    // close peer connections
     if (peerConnections) {
       Object.keys(peerConnections).forEach(peerConnectionKey => {
         peerConnections[peerConnectionKey].close()
       })
     }
 
+    // get location of current room
     const roomRef = database.collection(FirestoreCollections.rooms).doc(roomId)
 
     // remove room data if no one here
     if (totalParticipants === 1) {
       const batch = database.batch()
+
+      // delete all data Participants
       const participants = await roomRef.collection(FirestoreCollections.participants).get()
-      const connections = await roomRef.collection(FirestoreCollections.connections).get()
       participants?.forEach(doc => {
         batch.delete(doc.ref)
       })
+
+      // delete all data Connections
+      const connections = await roomRef.collection(FirestoreCollections.connections).get()
       connections?.forEach(doc => {
         batch.delete(doc.ref)
       })
+
+      // delete current room detail data and this room in Rooms
       await batch.commit()
       await roomRef.delete()
     } else {
+      // delete user data in Participants collection
       await roomRef.collection(FirestoreCollections.participants).doc(userName).delete()
+
+      // filter data has userName is requester or responder
       const Filter = firebase.firestore.Filter
       const connectionSnapshot = await roomRef
         .collection(FirestoreCollections.connections)
         .where(Filter.or(Filter('requester', '==', userName), Filter('responder', '==', userName)))
         .get()
 
+      // delete all filtered connections one by one
       connectionSnapshot?.docs?.forEach?.(async doc => {
-        const answerCandidates = await doc.ref.collection(FirestoreCollections.answerCandidates).get()
-        const offerCandidates = await doc.ref.collection(FirestoreCollections.offerCandidates).get()
         const batch = database.batch()
+
+        // delete all data answerCandidates
+        const answerCandidates = await doc.ref.collection(FirestoreCollections.answerCandidates).get()
         answerCandidates.forEach(answerDoc => {
           batch.delete(answerDoc.ref)
         })
+
+        // delete all data offerCandidates
+        const offerCandidates = await doc.ref.collection(FirestoreCollections.offerCandidates).get()
         offerCandidates.forEach(offerDoc => {
           batch.delete(offerDoc.ref)
         })
+
+        // delete connection detail and remove it from Connections
         await batch.commit()
         doc.ref.delete()
       })
     }
 
+    // reset data
     setRoomId('')
     setScreen(Screen.CreateRoom)
     setRemoteMedias({})
     setRemoteStreams({})
     setPeerConnections({})
     setTotalParticipants(0)
+
+    // if user still enable camera or microphone, call openMediaDevices to show it locally
     if (localMediaControl?.camera || localMediaControl?.mic) {
       openMediaDevices(localMediaControl?.mic, localMediaControl?.camera)
     }
@@ -451,19 +543,24 @@ export const HomeScreen: React.FC<Props> = () => {
   }, [cameraPermissionGranted, microphonePermissionGranted])
 
   useEffect(() => {
-    // listen snapshot to get total participants
     if (roomId) {
       const roomRef = database.collection(FirestoreCollections.rooms).doc(roomId)
       const participantRef = roomRef.collection(FirestoreCollections.participants)
       if (participantRef) {
+        // listener to new changes from Participants collection
         participantRef.onSnapshot(snapshot => {
+          // get current total participants in Firestore
           if (totalParticipants !== snapshot.size) {
             setTotalParticipants(snapshot.size)
           }
+
+          // loop through new data changes
           snapshot.docChanges().forEach(async change => {
             const data = change.doc.data()
             if (change.type === 'modified') {
+              // ignore changes from current user
               if (data?.name !== userName) {
+                // update new change in remoteMedias
                 setRemoteMedias(prev => ({
                   ...prev,
                   [data.name]: {
@@ -473,11 +570,14 @@ export const HomeScreen: React.FC<Props> = () => {
                 }))
               }
             } else if (change.type === 'removed') {
+              // update remote streams to remove leaver's streams
               setRemoteStreams(prev => {
                 const newRemoteStreams = {...prev}
                 delete newRemoteStreams[data?.name]
                 return newRemoteStreams
               })
+
+              // update remote medias to remove leaver's control status
               setRemoteMedias(prev => {
                 const newRemoteMedias = {...prev}
                 delete newRemoteMedias[data?.name]
