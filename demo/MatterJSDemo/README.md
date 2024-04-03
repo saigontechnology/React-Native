@@ -1,6 +1,6 @@
-# React Native Rolley Ball Game Demo 🎮
+# React Native Ball Game Demo 🎮
 
-Welcome to the Rolley Ball Game Demo built with React Native, React Game Engine, and Matter.js! This engaging demo showcases the integration of these powerful technologies to create a fun and interactive gaming experience.
+Welcome to the Ball Game Demo built with React Native, React Game Engine, and Matter.js! This engaging demo showcases the integration of these powerful technologies to create a fun and interactive gaming experience.
 
 **Video Demo**
 
