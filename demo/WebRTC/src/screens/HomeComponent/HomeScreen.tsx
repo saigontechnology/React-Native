@@ -95,6 +95,15 @@ export const HomeScreen: React.FC<Props> = () => {
               // init PeerConnection
               const peerConnection = new RTCPeerConnection(peerConstraints)
 
+              // get location of connection between requester and current user
+              const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
+              const connectionRef = connectionsCollection.doc(`${data.requester}-${createdUserName}`)
+
+              // create answerCandidates collection
+              const answerCandidatesCollection = connectionRef.collection(
+                FirestoreCollections.answerCandidates,
+              )
+
               // add current user's stream to created PC (Peer Connection)
               localStream?.getTracks().forEach(track => {
                 peerConnection.addTrack(track, localStream)
@@ -114,9 +123,12 @@ export const HomeScreen: React.FC<Props> = () => {
                 })
               })
 
-              // get location of connection between requester and current user
-              const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
-              const connectionRef = connectionsCollection.doc(`${data.requester}-${createdUserName}`)
+              // add current user's ICE Candidates to answerCandidates collection
+              peerConnection.addEventListener('icecandidate', event => {
+                if (event.candidate) {
+                  answerCandidatesCollection.add(event.candidate.toJSON())
+                }
+              })
 
               // get data from requester-user's connection
               const connectionData = (await connectionRef.get()).data()
@@ -135,18 +147,6 @@ export const HomeScreen: React.FC<Props> = () => {
                 sdp: answerDescription.sdp,
               }
               await connectionRef.update({answer})
-
-              // create answerCandidates collection
-              const answerCandidatesCollection = connectionRef.collection(
-                FirestoreCollections.answerCandidates,
-              )
-
-              // add current user's ICE Candidates to answerCandidates collection
-              peerConnection.addEventListener('icecandidate', event => {
-                if (event.candidate) {
-                  answerCandidatesCollection.add(event.candidate.toJSON())
-                }
-              })
 
               // collect Offer's ICE candidates from offerCandidates collection and add in PC
               connectionRef
@@ -191,8 +191,21 @@ export const HomeScreen: React.FC<Props> = () => {
           },
         }))
 
+        // init participant's remoteStream to add track data from Peer Connection later
+        setRemoteStreams(prev => ({
+          ...prev,
+          [participant.name]: new MediaStream([]),
+        }))
+
         // init peer connection
         const peerConnection = new RTCPeerConnection(peerConstraints)
+
+        // create connection between current user and participant
+        const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
+        const connectionRef = connectionsCollection.doc(`${createdUserName}-${participant.name}`)
+
+        // create offerCandidates collection
+        const offerCandidatesCollection = connectionRef.collection(FirestoreCollections.offerCandidates)
 
         // add current user's stream to created PC (Peer Connection)
         localStream?.getTracks().forEach(track => {
@@ -213,15 +226,12 @@ export const HomeScreen: React.FC<Props> = () => {
           })
         })
 
-        // init participant's remoteStream to add track data from Peer Connection later
-        setRemoteStreams(prev => ({
-          ...prev,
-          [participant.name]: new MediaStream([]),
-        }))
-
-        // create connection between current user and participant
-        const connectionsCollection = roomRef.collection(FirestoreCollections.connections)
-        const connectionRef = connectionsCollection.doc(`${createdUserName}-${participant.name}`)
+        // add current user's ICE Candidates to offerCandidates collection
+        peerConnection.addEventListener('icecandidate', event => {
+          if (event.candidate) {
+            offerCandidatesCollection.add(event.candidate.toJSON())
+          }
+        })
 
         // create offer SDP and set localDescription
         const offerDescription = await peerConnection.createOffer(sessionConstraints)
@@ -246,16 +256,6 @@ export const HomeScreen: React.FC<Props> = () => {
             // get answer and set as remoteDescription
             const answerDescription = new RTCSessionDescription(data.answer)
             await peerConnection.setRemoteDescription(answerDescription)
-          }
-        })
-
-        // create offerCandidates collection
-        const offerCandidatesCollection = connectionRef.collection(FirestoreCollections.offerCandidates)
-
-        // add current user's ICE Candidates to offerCandidates collection
-        peerConnection.addEventListener('icecandidate', event => {
-          if (event.candidate) {
-            offerCandidatesCollection.add(event.candidate.toJSON())
           }
         })
 
