@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.saigontechnology.qrapp-mergeDevelopmentDebugResources-48:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "/Users/danh.mai/.gradle/caches/transforms-4/6332c1009e417580fd9d789f6c67a4b6/transformed/appcompat-1.6.1/res/values-watch-v21/values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        }
+    ]
+}

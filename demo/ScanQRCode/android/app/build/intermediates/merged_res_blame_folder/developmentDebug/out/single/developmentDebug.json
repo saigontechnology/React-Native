@@ -1,0 +1,82 @@
+[
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-xxxhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-xxxhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-mdpi_node_modules_reactnavigation_elements_src_assets_backiconmask.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-mdpi/node_modules_reactnavigation_elements_src_assets_backiconmask.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-mdpi_src_assets_images_info.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-mdpi/src_assets_images_info.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-xhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-xhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-mdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-mdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-mdpi_src_assets_images_sts.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-mdpi/src_assets_images_sts.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable_rn_edit_text_material.xml.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/drawable/rn_edit_text_material.xml"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-xxhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-xxhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.saigontechnology.qrapp-main-54:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-mdpi_src_assets_images_close.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-mdpi/src_assets_images_close.png"
+    },
+    {
+        "merged": "com.saigontechnology.qrapp-merged_res-50:/drawable-hdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
+        "source": "com.saigontechnology.qrapp-res-44:/drawable-hdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    }
+]

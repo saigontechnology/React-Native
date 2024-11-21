@@ -1,0 +1,37 @@
+R_DEF: Internal format may change without notice
+local
+drawable node_modules_reactnavigation_elements_src_assets_backicon
+drawable node_modules_reactnavigation_elements_src_assets_backiconmask
+drawable rn_edit_text_material
+drawable src_assets_images_close
+drawable src_assets_images_info
+drawable src_assets_images_sts
+integer react_native_dev_server_port
+mipmap ic_launcher
+mipmap ic_launcher_round
+string API_URL
+string APPCENTER_APP_DISPLAY_NAME
+string APPCENTER_APP_NAME_ANDROID
+string APPCENTER_APP_NAME_IOS
+string APPCENTER_DISTRIBUTE_DESTINATIONS
+string APPCENTER_RELEASE_NOTE
+string APPCENTER_TOKEN_ANDROID
+string APPCENTER_TOKEN_IOS
+string APPLE_TEAM_ID
+string APP_ENV
+string APP_ID
+string APP_NAME
+string CODEPUSH_KEY_ANDROID
+string CODEPUSH_KEY_IOS
+string CODE_PUSH_APK_BUILD_TIME
+string CodePushDeploymentKey
+string PROJECT_NAME
+string app_name
+string build_config_package
+string gcm_defaultSenderId
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
+string project_id
+style AppTheme
