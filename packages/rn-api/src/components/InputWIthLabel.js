@@ -3,7 +3,7 @@ import React from 'react'
 import {responsiveHeight} from '../themes/metrics'
 import TextInputView from './TextInputView'
 
-const InputWithLabel = props => {
+export const InputWithLabel = props => {
   const {title, style, onChangeText, value, defaultValue, ...rest} = props
   return (
     <View style={[styles.container, style]}>
@@ -35,5 +35,3 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 })
-
-export default React.memo(InputWithLabel)
