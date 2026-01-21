@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {responsiveHeight} from '../themes/metrics'
 import TextInputView from './TextInputView'
 
-const PasswordInput = props => {
+export const PasswordInput = props => {
   const {style, title, onChangeText, value, defaultValue, ...rest} = props
   const [showPassword, setShowPassword] = useState(false)
 
@@ -59,5 +59,3 @@ const styles = StyleSheet.create({
     height: responsiveHeight(40),
   },
 })
-
-export default React.memo(PasswordInput)
